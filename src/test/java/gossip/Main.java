@@ -13,10 +13,10 @@ public class Main {
 			System.out.println("Gossip Error: " + message);
 		});
 		
-		Gossip gossip = new Gossip(new InetSocketAddress("127.0.0.1", 8081), new InetSocketAddress("127.0.0.1", 8080), config);
-		Gossip g = new Gossip(new InetSocketAddress("127.0.0.1", 8080), new InetSocketAddress("127.0.0.1", 8081), config);
-		Gossip gossip2 = new Gossip(new InetSocketAddress("127.0.0.1", 8082), new InetSocketAddress("192.168.0.188", 8081), config);
-		Gossip gossip3 = new Gossip(new InetSocketAddress("127.0.0.1", 8083), new InetSocketAddress("192.168.0.188", 8081), config);
+		Gossip gossip = new Gossip(new InetSocketAddress("127.0.0.1", 8081), new InetSocketAddress("127.0.0.1", 8080), config, "test1");
+		Gossip g = new Gossip(new InetSocketAddress("127.0.0.1", 8080), new InetSocketAddress("127.0.0.1", 8081), config, "test2");
+		Gossip gossip2 = new Gossip(new InetSocketAddress("127.0.0.1", 8082), new InetSocketAddress("192.168.0.188", 8081), config, "test3");
+		Gossip gossip3 = new Gossip(new InetSocketAddress("127.0.0.1", 8083), new InetSocketAddress("192.168.0.188", 8081), config, "test4");
 		
 		gossip.start();
 		g.start();

@@ -6,70 +6,37 @@ import main.java.gossip.Config;
 import main.java.gossip.Gossip;
 
 public class Main {
-	public static void main(String[] args) {		
-		Config config = new Config(Duration.ofSeconds(2), Duration.ofSeconds(2), Duration.ofMillis(500), Duration.ofMillis(200), 3);
-		
-		Gossip.setLogger((message) -> {
-			System.out.println("Gossip Error: " + message);
-		});
-		
-		Gossip gossip = new Gossip(new InetSocketAddress("127.0.0.1", 8081), new InetSocketAddress("127.0.0.1", 8080), config);
-		Gossip g = new Gossip(new InetSocketAddress("127.0.0.1", 8080), new InetSocketAddress("127.0.0.1", 8081), config);
-		Gossip gossip2 = new Gossip(new InetSocketAddress("127.0.0.1", 8082), new InetSocketAddress("192.168.0.188", 8081), config);
-		Gossip gossip3 = new Gossip(new InetSocketAddress("127.0.0.1", 8083), new InetSocketAddress("192.168.0.188", 8081), config);
-		
-		gossip.start();
-		g.start();
-		gossip2.start();
-		gossip3.start();
-		
-		new Thread(()-> {
-			try {
-				Thread.sleep(1000);
-				g.stop();
-				gossip2.stop();
-				gossip3.stop();
-				
-				System.out.println("stopped");
-				
-				Thread.sleep(2500);
-				System.out.println("trying");
-				
-				for (InetSocketAddress addr : gossip.getFailedMembers()) {
-					System.out.println(addr.getHostName() + " - " + addr.getPort());
-				}
-				
-				for (InetSocketAddress addr : gossip.getAllMembers()) {
-					System.out.println("all: " + addr.getHostName() + " - " + addr.getPort());
-				}
-				
-				Thread.sleep(3500);
-				
-				for (InetSocketAddress addr : gossip.getAllMembers()) {
-					System.out.println("all: " + addr.getHostName() + " - " + addr.getPort());
-				}
-				
-				for (InetSocketAddress addr : gossip.getAliveMembers()) {
-					System.out.println("alive: " + addr.getHostName() + " - " + addr.getPort());
-				}
-				
-				for (InetSocketAddress addr : gossip.getFailedMembers()) {
-					System.out.println("fail: " + addr.getHostName() + " - " + addr.getPort());
-				}
-				
-				for (InetSocketAddress addr : g.getAliveMembers()) {
-					System.out.println(addr.getHostName() + " - " + addr.getPort());
-				}
-				
-				gossip.stop();
-				g.stop();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.out.println("exiting program");
-			
-			System.exit(10);
-		}).start();;
-	}
+public static void main(String[] args) {
+    Config config = new Config( 
+            Duration.ofSeconds(2), // time between receiving the last heartbeat and marking a member as failing
+            Duration.ofSeconds(2), // time between marking a member as failed and removing it from the list
+            Duration.ofMillis(500), // how often the member list is broadcast to other members
+            Duration.ofMillis(200), // how often the Gossip protocol checks if any members have failed
+            3                       // the number of nodes to send the membership list to when broadcasting.
+        );
+    
+    // Set how the error messages will be handled.
+    Gossip.setLogger((message) -> {
+        System.out.println("Gossip Error: " + message);
+    });
+  
+    Gossip firstNode = new Gossip(new InetSocketAddress("127.0.0.1", 8080), config, "testfirstnode");
+  
+    firstNode.setOnNewMemberHandler( (address) -> {
+        System.out.println(address + " connected to first node");
+        System.out.println();
+    });
+  
+    firstNode.start();
+  
+  
+    // Create 20 nodes that connect in a chair to each other. Despite only 1 node connecting to the
+    // first node, the first node will eventually have a membership list with all the nodes in it.
+    for(int i = 1; i <= 20; i++) {
+        Gossip g = new Gossip( new InetSocketAddress("127.0.0.1", 8080 + i), 
+                               new InetSocketAddress("127.0.0.1", 8080 + i - 1), config, "test" + i);
+        g.start();
+    }
+}
+
 }

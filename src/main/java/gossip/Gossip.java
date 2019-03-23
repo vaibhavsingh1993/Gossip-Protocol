@@ -30,13 +30,13 @@ public class Gossip {
 	/**
 	 * initialize gossip protocol as the first node in the system.
 	 * */
-	public Gossip(InetSocketAddress listeningAddress, Config config) {
+	public Gossip(InetSocketAddress listeningAddress, Config config, String message) {
 		this.config = config;
 
 		this.listeningAddress = listeningAddress;
 		this.network = new Network(listeningAddress.getPort());
 
-		self = new Member(listeningAddress, 0, config);
+		self = new Member(listeningAddress, 0, config, message);
 		memberList.put(self.getUniqueId(), self);
 	}
 
@@ -45,10 +45,10 @@ public class Gossip {
 	 * monitoring.
 	 * */
 	public Gossip(InetSocketAddress listeningAddress,
-			InetSocketAddress targetAddress, Config config) {
-		this(listeningAddress, config);
+			InetSocketAddress targetAddress, Config config, String message) {
+		this(listeningAddress, config, message);
 
-		Member initialTarget = new Member(targetAddress, 0, config);
+		Member initialTarget = new Member(targetAddress, 0, config, message);
 		memberList.put(initialTarget.getUniqueId(), initialTarget);
 	}
 
