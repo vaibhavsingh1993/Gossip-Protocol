@@ -16,6 +16,7 @@ public class Member implements Serializable {
 	private boolean hasFailed = false;
 	
 	private Config config;
+    private String message;
 	
 	public Member(InetSocketAddress address, long initialHearbeatSequenceNumber, Config config) {
 		this.address = address;
@@ -23,7 +24,15 @@ public class Member implements Serializable {
 		
 		updateLastUpdateTime();
 	}
-	
+
+    public Member(InetSocketAddress address, long initialHearbeatSequenceNumber, Config config, String message) {
+         this.address = address;
+         this.config = config;
+         this.message = message;
+     
+         updateLastUpdateTime();
+     }
+
 	public void setConfig(Config config) {
 		this.config = config;
 	}
@@ -51,6 +60,14 @@ public class Member implements Serializable {
 	public long getSequenceNumber() {
 		return heartbeatSequenceNumber;
 	}
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 	
 	public void updateSequenceNumber(long newSequenceNumber) {
 		if (newSequenceNumber > heartbeatSequenceNumber) {
@@ -94,7 +111,7 @@ public class Member implements Serializable {
 	
 	
 	public String getNetworkMessage() {
-		return "[" + address.getHostName() + ":" + address.getPort() + "-" + heartbeatSequenceNumber + "]";
+		return "[" + address.getHostName() + ":" + address.getPort() + "-" + heartbeatSequenceNumber + "testbla" + "]";
 	}
 	
 	
