@@ -174,7 +174,7 @@ public class Gossip {
 				boolean newTargetFound = false;
 
 				while (!newTargetFound) {
-					int randomIndex = (int) (Math.random() * memberList.size());
+					int randomIndex = (int) (Math.random() * memberList.size() - 1);
 
 					String targetKey = (String) keys[randomIndex];
 
