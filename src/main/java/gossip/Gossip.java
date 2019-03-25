@@ -19,6 +19,9 @@ public class Gossip {
 
 	private boolean stopped = false;
 
+    private String sendMsg;
+    private String rcvdMsg;
+
 	// configurable values
 	private Config config = null;
 
@@ -37,6 +40,7 @@ public class Gossip {
 		this.network = new Network(listeningAddress.getPort());
 
 		self = new Member(listeningAddress, 0, config, message);
+        sendMsg = message;
 		memberList.put(self.getUniqueId(), self);
 	}
 
@@ -137,24 +141,43 @@ public class Gossip {
 	}
 
 	private void receiveMemberList() {
-		Member newMember = network.receiveMessage();
-
-		Member member = memberList.get(newMember.getUniqueId());
-		if (member == null) { // member not in the list
-			synchronized (memberList) {
-				newMember.setConfig(config);
-				newMember.updateLastUpdateTime();
-
-				memberList.put(newMember.getUniqueId(), newMember);
-
-				if (onNewMember != null) {
-					onNewMember.update(newMember.getSocketAddress());
-				}
+		//Member newMember = network.receiveMessage();
+        Object rcvdObj = network.receiveMessage();
+        //System.out.println(self.getSocketAddress() + " is receiving a new message.");
+	    Member newMember = null;
+        boolean isStr = false;
+        if(rcvdObj instanceof String) {
+            //System.out.println("The new message is of type string.");
+            rcvdMsg = rcvdObj.toString();
+            isStr = true;
+        } else {
+            try {
+	            //System.out.println("The new message is of type Member."); 	                                        
+                newMember  = (Member) rcvdObj;                
+            } catch (Exception e) {
+				Gossip.logger.log("Error casting Gossip network data to Member class because: " + e.getMessage());
 			}
-		} else { // member was in the list
-			member.updateSequenceNumber(newMember.getSequenceNumber());
-		}
-	}
+        }
+        if (isStr == false) {
+            Member member = memberList.get(newMember.getUniqueId());
+            if (member == null) { // member not in the list
+                synchronized (memberList) {
+                    newMember.setConfig(config);
+                    newMember.updateLastUpdateTime();
+
+                    memberList.put(newMember.getUniqueId(), newMember);
+
+                    if (onNewMember != null) {
+                        onNewMember.update(newMember.getSocketAddress());
+                    }
+                }
+            } else { // member was in the list
+                member.updateSequenceNumber(newMember.getSequenceNumber());
+            }
+        } else {
+            System.out.println(self.getSocketAddress() + " received message '" + rcvdMsg + "' from a peer.");
+	    }
+    }
 
 	private void sendMemberListToRandomMemeber() {
 		self.incremenetSequenceNumber();
@@ -188,7 +211,10 @@ public class Gossip {
 
 		for (String targetKey : peersToUpdate) {
 			Member target = memberList.get(targetKey);
-
+            if (sendMsg != null) {
+				System.out.println(self.getSocketAddress() + " is sending message '" + sendMsg + "' out.");
+				network.sendMessage(target, sendMsg);                    
+            }
 			for (Member member : memberList.values()) {
 				network.sendMessage(target, member);
 			}

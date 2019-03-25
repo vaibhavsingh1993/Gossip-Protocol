@@ -26,7 +26,17 @@ public class Network {
 	}
 	
 	public void sendMessage(Member target, String message) {
-		sendMessage(target, message.getBytes());
+        //System.out.println(message + " of type String is being sent out.");
+        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
+		try {
+			ObjectOutput oo = new ObjectOutputStream(bStream); 
+			oo.writeObject(message);
+			oo.close();
+		} catch (IOException e) {
+			Gossip.logger.log("Could not send " + message + " to [" + target.getSocketAddress() + "] because: " + e.getMessage());
+		}
+		byte[] serializedMessage = bStream.toByteArray();
+		sendMessage(target, serializedMessage);
 	}
 	
 	public void sendMessage(Member target, Member message) {
@@ -58,12 +68,20 @@ public class Network {
 		}
 	}
 	
-	public Member receiveMessage() {
+	public Object receiveMessage() {
 		try {
 			socket.receive(receivePacket);
 			
 			ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(receivePacket.getData()));
-			Member message = null;
+            Object rcvdObj = null;
+            try {
+                rcvdObj = iStream.readObject();
+            } catch (ClassNotFoundException e) {
+				Gossip.logger.log("Error calling readObject() on an ObjectInputStream object: " + e.getMessage());
+			}
+            iStream.close();
+            return rcvdObj;
+            /*Member message = null;
 			try {
 				message = (Member) iStream.readObject();
 			} catch (ClassNotFoundException e) {
@@ -71,7 +89,7 @@ public class Network {
 			}
 			iStream.close();
 			
-			return message;			
+			return message;*/			
 		} catch (IOException e) {
 			Gossip.logger.log("Could not properly receive message because: " + e.getMessage());
 		}

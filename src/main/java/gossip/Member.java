@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 
 public class Member implements Serializable {
-	private final InetSocketAddress address;
+	private InetSocketAddress address = null;
 	
 	private long heartbeatSequenceNumber = 0;
 	private LocalDateTime lastUpdateTime = null;
