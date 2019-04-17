@@ -65,13 +65,13 @@ public class Node {
 	//send vote for the current step
 
     public final InetSocketAddress listeningAddress;
-    private Network network;
+    public Network network;
     // instantiate a default logger that does not log anything
     static Logger logger = (message) -> {};
     private Member self = null;
     private ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     private boolean stopped = false;
-    private String sendMsg;
+    public String sendMsg;
     private String rcvdMsg;
     // configurable values
     private Config config = null;
@@ -108,7 +108,7 @@ public class Node {
      *
      * @param msg Make sure that the node will send out a message it wants to send later
      */
-    private void changeSendMsg(String msg) {
+    public void changeSendMsg(String msg) {
         sendMsg = msg;
     }
 
