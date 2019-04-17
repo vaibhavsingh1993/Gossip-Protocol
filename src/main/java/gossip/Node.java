@@ -18,14 +18,24 @@ public class Node {
 		this.stepNumber++;
 	}
 
-	public void getMessages() {
-	    while(System.currentTimeMillis()<endTime){
-		    //listen for messages
+	public long[] getMessages(int currTime) {
+	    while(System.currentTimeMillis()<currTime + 5000){
+		 Object rcvdObj = network.receiveMessage();
+		 String rcvMsg = rcvdObj.toString();
+		 if (rcvMsg.length() == 1){
+			votes.add((long)rcvMsg);
+		}	
+	    //listen for messages
 		    //verify messages and then add the messages to the array roundMessages
             //put messages into arrays
+		return votes;		
 	    }
 	}
-
+	public void printVotes(int list[]){
+		for (int i = 0; i < list.length; i++){
+			System.out.println(list[i]);
+		}
+	}
 	public int numZeros(long[] list){
 		int count = 0;
 		for (int i =0 ; i < list.length; i++){

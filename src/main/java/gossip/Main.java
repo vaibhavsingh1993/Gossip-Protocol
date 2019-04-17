@@ -27,8 +27,11 @@ public static void main(String[] args) {
         System.out.println();
     });*/
   
-    //firstNode.start();
-
+    //firstNode.start();	
+    long currTime= System.currentTimeMillis();
+    
+    long votes =    firstNode.getMessages(currTime);
+    firstNode.printVotes();
     if ((firstNode.stepNumber % 3) == 0){
         long numOfZeros = firstNode.numZeros(firstNode.votes);
         long numOfOnes = firstNode.numOnes(firstNode.votes);
@@ -71,6 +74,7 @@ public static void main(String[] args) {
             firstNode.str = Integer.toString(b);
         }
     }
+    firstNode.updateStepNumber();
 
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
