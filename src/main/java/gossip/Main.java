@@ -33,10 +33,12 @@ public static void main(String[] args) {
             new InetSocketAddress("35.233.232.94", 8081), new InetSocketAddress("35.245.51.164", 8081)
 }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
-    for (int i = 0; i < 3; i++) {
+    int i = 0;
+    for (String key: memberList.keySet()) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
-        firstNode.network.sendMessage(initialTarget, firstNode.sendMsg);
+        firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+        i++;
     }
     long currTime = System.currentTimeMillis();
 
@@ -99,10 +101,8 @@ while(true){
 
 		break;
 	}
-    for (int i = 0; i < 3; i++) {
-        Member initialTarget = new Member(targetAddress[i], 0, config, "0");
-        memberList.put(initialTarget.getUniqueId(), initialTarget);
-        firstNode.network.sendMessage(initialTarget, firstNode.sendMsg);
+    for (String key : memberList.keySet()) {
+        firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
     }
 }
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
