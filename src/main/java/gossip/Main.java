@@ -21,7 +21,7 @@ public static void main(String[] args) {
         System.out.println("Gossip Error: " + message);
     });
     // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8080), config, "0", 0);
+    Node firstNode = new Node(new InetSocketAddress("10.152.22.134", 8080), config, "0", 0);
   
 /*    firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
@@ -30,13 +30,15 @@ public static void main(String[] args) {
 
     //firstNode.start();
     InetSocketAddress[] targetAddress = {new InetSocketAddress("10.152.56.137", 8080),
-            new InetSocketAddress("10.154.58.59", 8080),
+            new InetSocketAddress("10.154.58.59", 8080), new InetSocketAddress("10.152.22.134", 8080)
     }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
-    for (int i = 0; i < 3; i++) {
+    int i = 0;
+    for (String key: memberList.keySet()) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
-        firstNode.network.sendMessage(initialTarget, firstNode.sendMsg);
+        firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+        i++;
     }
     long currTime = System.currentTimeMillis();
 
@@ -99,10 +101,8 @@ while(true){
 
 		break;
 	}
-    for (int i = 0; i < 3; i++) {
-        Member initialTarget = new Member(targetAddress[i], 0, config, "0");
-        memberList.put(initialTarget.getUniqueId(), initialTarget);
-        firstNode.network.sendMessage(initialTarget, firstNode.sendMsg);
+    for (String key : memberList.keySet()) {
+        firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
     }
 }
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
