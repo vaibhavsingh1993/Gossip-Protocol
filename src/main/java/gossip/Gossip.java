@@ -175,6 +175,7 @@ public class Gossip {
                 member.updateSequenceNumber(newMember.getSequenceNumber());
             }
         } else {
+        	// TODO: Might still need to collect the information about this peer's address for BA protocol
             System.out.println(self.getSocketAddress() + " received message '" + rcvdMsg + "' from a peer.");
 	    }
     }
