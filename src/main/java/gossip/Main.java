@@ -30,8 +30,8 @@ public static void main(String[] args) {
     //firstNode.start();	
     long currTime= System.currentTimeMillis();
     
-    long votes =    firstNode.getMessages(currTime);
-    firstNode.printVotes();
+    long[] votes = firstNode.getMessages(currTime);
+    firstNode.printVotes(votes);
     if ((firstNode.stepNumber % 3) == 0){
         long numOfZeros = firstNode.numZeros(firstNode.votes);
         long numOfOnes = firstNode.numOnes(firstNode.votes);

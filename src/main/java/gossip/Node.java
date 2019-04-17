@@ -18,20 +18,23 @@ public class Node {
 		this.stepNumber++;
 	}
 
-	public long[] getMessages(int currTime) {
+	public long[] getMessages(long currTime) {
+	    int i = 0;
 	    while(System.currentTimeMillis()<currTime + 5000){
-		 Object rcvdObj = network.receiveMessage();
-		 String rcvMsg = rcvdObj.toString();
+		 //Object rcvdObj = network.receiveMessage();
+		 //String rcvMsg = rcvdObj.toString();
+         String rcvMsg = "0";
 		 if (rcvMsg.length() == 1){
-			votes.add((long)rcvMsg);
-		}	
+			votes[i%5] = (long) Integer.valueOf(rcvMsg);
+			i++;
+		 }
 	    //listen for messages
 		    //verify messages and then add the messages to the array roundMessages
             //put messages into arrays
-		return votes;		
 	    }
-	}
-	public void printVotes(int list[]){
+        return votes;
+    }
+	public void printVotes(long list[]){
 		for (int i = 0; i < list.length; i++){
 			System.out.println(list[i]);
 		}
