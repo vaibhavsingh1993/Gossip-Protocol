@@ -29,9 +29,9 @@ public static void main(String[] args) {
     });*/
 
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {, , , ,}; // TODO: Hardcode the receivers' IPs
+    InetSocketAddress[] targetAddress = {"10.152.22.134"}; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
         firstNode.network.sendMessage(initialTarget, firstNode.sendMsg);
@@ -40,13 +40,17 @@ public static void main(String[] args) {
     long[] votes = firstNode.getMessages(currTime);
     firstNode.printVotes(votes);
     long numOfZeros;
+
     long numOfOnes;
+    int penultimateStep;
+while(true){	
     switch (firstNode.stepNumber % 3) {
         case 0:
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
                 firstNode.changeSendMsg("0*");
+	
             }
             if (numOfOnes >= 2 * firstNode.votes.length / 3) {
                 firstNode.changeSendMsg("1");
@@ -78,8 +82,15 @@ public static void main(String[] args) {
                 firstNode.changeSendMsg(Integer.toString(b));
             }
     }
+    if(firstNode.str[1] == "*"){
+	penultimateStep = firstNode.stepNumber;
+	
+	}
     firstNode.updateStepNumber();
-
+    if(firstNode.stepNumber == (penultimateStep + 1)){
+		break;
+	}
+}
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
     /*for(int i = 1; i <= 3; i++) {

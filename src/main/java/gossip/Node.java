@@ -9,7 +9,7 @@ public class Node {
 	int stepNumber = -1;
 	String str = "";
     long[][] roundMessages = {{0,10},{1,5},{0,3},{0,10},{1,1}};
-    long[] votes = {0,1,0,0,1};
+    long[] votes = {0,1,0};
     int currentStep;
     long currTime= System.currentTimeMillis();
     long endTime = currTime + 5000;
@@ -21,9 +21,9 @@ public class Node {
 	public long[] getMessages(long currTime) {
 	    int i = 0;
 	    while(System.currentTimeMillis()<currTime + 5000){
-		 //Object rcvdObj = network.receiveMessage();
-		 //String rcvMsg = rcvdObj.toString();
-         String rcvMsg = "0";
+		 Object rcvdObj = network.receiveMessage();
+		 String rcvMsg = rcvdObj.toString();
+//         String rcvMsg = "0";
 		 if (rcvMsg.length() == 1){
 			votes[i%5] = (long) Integer.valueOf(rcvMsg);
 			i++;
