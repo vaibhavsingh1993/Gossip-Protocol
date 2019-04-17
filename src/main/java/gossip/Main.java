@@ -33,12 +33,12 @@ public static void main(String[] args) {
             new InetSocketAddress("35.233.232.94", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.215.147", 8081)
 }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
-    int i = 0;
-    for (String key: memberList.keySet()) {
-        Member initialTarget = new Member(targetAddress[i], 0, config, "0");
+    for (int j=0; j<targetAddress.length; j++) {
+        Member initialTarget = new Member(targetAddress[j], 0, config, "0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
+    }
+    for (String key: memberList.keySet()) {
         firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
-        i++;
     }
     long currTime;
     long numOfZeros;
