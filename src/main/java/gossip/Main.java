@@ -29,7 +29,9 @@ public static void main(String[] args) {
     });*/
 
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {, ,}; // TODO: Hardcode the receivers' IPs
+    InetSocketAddress[] targetAddress = {new InetSocketAddress("10.152.56.137", 8080),
+            new InetSocketAddress("10.154.58.59", 8080),
+    }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     for (int i = 0; i < 3; i++) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
@@ -42,11 +44,11 @@ public static void main(String[] args) {
     long numOfZeros;
 
     long numOfOnes;
-    int penultimateStep;
+    int penultimateStep = 0;
 while(true){	
     switch (firstNode.stepNumber % 3) {
         case 0:
-            votes[0] = Integer.valueOf(firstNode.sendMsg);
+//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -59,7 +61,7 @@ while(true){
                 firstNode.changeSendMsg("0");
             }
         case 1:
-            votes[0] = Integer.valueOf(firstNode.sendMsg);
+//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -71,7 +73,7 @@ while(true){
                 firstNode.changeSendMsg("1");
             }
         case 2:
-            votes[0] = Integer.valueOf(firstNode.sendMsg);
+//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -85,12 +87,12 @@ while(true){
                 firstNode.changeSendMsg(Integer.toString(b));
             }
     }
-    if(firstNode.str[1] == "*"){
-	penultimateStep = firstNode.stepNumber;
-	
+    if(firstNode.str.contains("*")){
+	    penultimateStep = firstNode.stepNumber;
 	}
     firstNode.updateStepNumber();
-    if(firstNode.stepNumber == (penultimateStep + 1)){
+    if(firstNode.stepNumber == (penultimateStep + 1) && penultimateStep != 0){
+
 		break;
 	}
 }
