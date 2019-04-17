@@ -7,33 +7,28 @@ import java.lang.Math;
 public class Node {
 
 	int stepNumber = -1;
-	String str = ""
-	
-	public Node( int steps) {
-		this.stepNumber = steps;
-	}
+	String str = "";
+    long[][] roundMessages = {{0,10},{1,5},{0,3},{0,10},{1,1}};
+    long[] votes = {0,1,0,0,1};
+    int currentStep;
+    long currTime= System.currentTimeMillis();
+    long endTime = currTime + 5000;
 
 	public void updateStepNumber() {
 		this.stepNumber++;
 	}
-	
-	long[][] roundMessages = new long[5][2];
-	long[] votes = new long[5]
-	int currentStep;
-	long currTime= System.currentTimeMillis();
-	long endTime = currTime + 5000;
-	while(System.currentTimeMillis()<end){
-		//listen for messages
-		//verify messages and then add the messages to the array roundMessages
-		roundMessages = [[0,10],[1,5],[0,3],[0,10],[1,1]];
-		votes = [0,1,0,0,1];
+
+	public void getMessages() {
+	    while(System.currentTimeMillis()<endTime){
+		    //listen for messages
+		    //verify messages and then add the messages to the array roundMessages
+            //put messages into arrays
+	    }
 	}
-	
 
-
-	public int numZeros(int[] list){
+	public int numZeros(long[] list){
 		int count = 0;
-		for (int i =0 ; i < list.length(); i++){
+		for (int i =0 ; i < list.length; i++){
 			if(list[i] == 0){
 				count++;
 			}	
@@ -42,57 +37,16 @@ public class Node {
 	}
 	
 
-	public int numOnes(int[] list){
+	public int numOnes(long[] list){
                 int count = 0;
-                for (int i =0 ; i < list.length(); i++){
+                for (int i =0 ; i < list.length; i++){
                         if(list[i] == 1){
                                 count++;
                         }
                 }
                 return count;
         }
-	if (stepNumber % 3 == 0){
-		long numOfZeros = numZeros(votes);
-		long numOfOnes = numOnes(votes);
-		if (numOfZeros >= 2* votes.length()/3){
-			str = "0*";			
-		}
-		if(numOfOnes >= 2*votes.length()/3){
-			str = "1";
-		}		
-		else{
-			str = "0";
-		}
-		
-	}
-	else if(stepNumber % 3 == 1){
-		long numOfZeros = numZeros(votes);
-                long numOfOnes = numOnes(votes);
-                if (numOfZeros >= 2* votes.length()/3){
-                        str = "0";             
-                }
-                if(numOfOnes >= 2*votes.length()/3){
-                        str = "1*";
-                }
-                else{
-                        str = "1";
-                }
-	}
-	else{
-		long numOfZeros = numZeros(votes);
-                long numOfOnes = numOnes(votes);
-                if (numOfZeros >= 2* votes.length()/3){
-                        str = "0";  
-                }
-                if(numOfOnes >= 2*votes.length()/3){
-                        str = "1";
-                }
-                else{
-                        //write code to get coin genuinely tossed
-			int b = Math.round((float)Math.random());
-			str = Integer.toString(b);
-                }
-	}
+
 	//create signature for message
 	
 	//send vote for the current step
@@ -116,13 +70,14 @@ public class Node {
     /**
      * initialize gossip protocol as the first node in the system.
      * */
-    public Node(InetSocketAddress listeningAddress, Config config, String message) {
+    public Node(InetSocketAddress listeningAddress, Config config, String message, int steps) {
         this.config = config;
         this.listeningAddress = listeningAddress;
         this.network = new Network(listeningAddress.getPort());
         self = new Member(listeningAddress, 0, config, message);
         sendMsg = message;
         memberList.put(self.getUniqueId(), self);
+        this.stepNumber = steps;
     }
 
     /**
@@ -130,8 +85,8 @@ public class Node {
      * monitoring.
      * */
     public Node(InetSocketAddress listeningAddress,
-                  InetSocketAddress targetAddress, Config config, String message) {
-        this(listeningAddress, config, message);
+                  InetSocketAddress targetAddress, Config config, String message, int steps) {
+        this(listeningAddress, config, message, steps);
         Member initialTarget = new Member(targetAddress, 0, config, message);
         memberList.put(initialTarget.getUniqueId(), initialTarget);
     }
