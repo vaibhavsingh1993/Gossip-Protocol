@@ -21,7 +21,7 @@ public static void main(String[] args) {
         System.out.println("Gossip Error: " + message);
     });
     // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8080), config, "0", 0);
+    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8081), config, "0", 0);
   
 /*    firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
@@ -29,9 +29,9 @@ public static void main(String[] args) {
     });*/
 
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {new InetSocketAddress("10.152.56.137", 8080),
-            new InetSocketAddress("10.154.58.59", 8080),
-    }; // TODO: Hardcode the receivers' IPs
+    InetSocketAddress[] targetAddress = {new InetSocketAddress("35.203.179.217", 8081),
+            new InetSocketAddress("35.233.232.94", 8081), new InetSocketAddress("35.245.51.164", 8081)
+}; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     for (int i = 0; i < 3; i++) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
