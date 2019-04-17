@@ -16,26 +16,25 @@ public static void main(String[] args) {
         );
     
     // Set how the error messages will be handled.
-    Gossip.setLogger((message) -> {
+    Node.setLogger((message) -> {
         System.out.println("Gossip Error: " + message);
     });
   
-    Gossip firstNode = new Gossip(new InetSocketAddress("127.0.0.1", 8080), config, "test: node 0");
+    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8080), config, "test: node 0");
   
-    firstNode.setOnNewMemberHandler( (address) -> {
+/*    firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
         System.out.println();
-    });
+    });*/
   
     firstNode.start();
-  
-  
+
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
     for(int i = 1; i <= 3; i++) {
-        Gossip g = new Gossip( new InetSocketAddress("127.0.0.1", 8080 + i), 
+        Node n = new Node( new InetSocketAddress("127.0.0.1", 8080 + i),
                                new InetSocketAddress("127.0.0.1", 8080 + i - 1), config, "test: node " + i);
-        g.start();
+        n.start();
     }
 }
 
