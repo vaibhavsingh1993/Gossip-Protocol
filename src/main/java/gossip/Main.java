@@ -20,7 +20,7 @@ public static void main(String[] args) {
     Node.setLogger((message) -> {
         System.out.println("Gossip Error: " + message);
     });
-
+    // TODO: Distribute a seed to nodes
     Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8080), config, "0", 0);
   
 /*    firstNode.setOnNewMemberHandler( (address) -> {
@@ -29,7 +29,7 @@ public static void main(String[] args) {
     });*/
 
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {"10.152.22.134"}; // TODO: Hardcode the receivers' IPs
+    InetSocketAddress[] targetAddress = {, ,}; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     for (int i = 0; i < 3; i++) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
@@ -46,6 +46,7 @@ public static void main(String[] args) {
 while(true){	
     switch (firstNode.stepNumber % 3) {
         case 0:
+            votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -58,6 +59,7 @@ while(true){
                 firstNode.changeSendMsg("0");
             }
         case 1:
+            votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -69,6 +71,7 @@ while(true){
                 firstNode.changeSendMsg("1");
             }
         case 2:
+            votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
