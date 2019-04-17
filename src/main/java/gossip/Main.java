@@ -20,22 +20,65 @@ public static void main(String[] args) {
         System.out.println("Gossip Error: " + message);
     });
   
-    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8080), config, "test: node 0");
+    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8080), config, "test: node 0", 0);
   
 /*    firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
         System.out.println();
     });*/
   
-    firstNode.start();
+    //firstNode.start();
+
+    if ((firstNode.stepNumber % 3) == 0){
+        long numOfZeros = firstNode.numZeros(firstNode.votes);
+        long numOfOnes = firstNode.numOnes(firstNode.votes);
+        if (numOfZeros >= 2* firstNode.votes.length/3){
+            firstNode.str = "0*";
+        }
+        if(numOfOnes >= 2*firstNode.votes.length/3){
+            firstNode.str = "1";
+        }
+        else{
+            firstNode.str = "0";
+        }
+
+    }
+    else if(firstNode.stepNumber % 3 == 1){
+        long numOfZeros = firstNode.numZeros(firstNode.votes);
+        long numOfOnes = firstNode.numOnes(firstNode.votes);
+        if (numOfZeros >= 2*firstNode.votes.length/3){
+            firstNode.str = "0";
+        }
+        if(numOfOnes >= 2*firstNode.votes.length/3){
+            firstNode.str = "1*";
+        }
+        else{
+            firstNode.str = "1";
+        }
+    }
+    else{
+        long numOfZeros = firstNode.numZeros(firstNode.votes);
+        long numOfOnes = firstNode.numOnes(firstNode.votes);
+        if (numOfZeros >= 2*firstNode.votes.length/3){
+            firstNode.str = "0";
+        }
+        if(numOfOnes >= 2*firstNode.votes.length/3){
+            firstNode.str = "1";
+        }
+        else{
+            //write code to get coin genuinely tossed
+            int b = Math.round((float)Math.random());
+            firstNode.str = Integer.toString(b);
+        }
+    }
 
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
-    for(int i = 1; i <= 3; i++) {
+    /*for(int i = 1; i <= 3; i++) {
         Node n = new Node( new InetSocketAddress("127.0.0.1", 8080 + i),
                                new InetSocketAddress("127.0.0.1", 8080 + i - 1), config, "test: node " + i);
         n.start();
-    }
+    }*/
 }
 
 }

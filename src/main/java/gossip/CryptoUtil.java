@@ -31,13 +31,13 @@ public class CryptoUtil {
        byte[] signatureBytes = sig.sign();
        return new BASE64Encoder().encode(signatureBytes);
      }
-
+/*
       private static boolean verifySignature(String message, PublicKey key) throws NoSuchAlgorithmException, UnsupportedEncodingException,                SignatureException, InvalidKeyException {
           Signature sig = Signature.getInstance("SHA1WithRSA");
         sig.initVerify(key);
         sig.update(message.getBytes("UTF-8"));
         return sig.verify(message.getBytes("UTF-8"));
-      }  
+      } */
      
     // Test method, refactor it later.
     public static void main(String[] args) throws Exception {
