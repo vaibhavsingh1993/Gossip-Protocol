@@ -19,15 +19,19 @@ public class Node {
 	}
 
 	public long[] getMessages(long currTime) {
-	    int i = 1;
+	    int i = 0;
 	    while(System.currentTimeMillis()<currTime + 5000){
 		 Object rcvdObj = network.receiveMessage();
 		 String rcvMsg = rcvdObj.toString();
-         //String rcvMsg = "0";
+		 //String rcvMsg = "0";
 		 if (rcvMsg.length() == 1){
 			votes[i%3] = (long) Integer.valueOf(rcvMsg);
 			i++;
 		 }
+        if (rcvMsg.length() == 2){
+            votes[i%3] = (long) Integer.valueOf(rcvMsg.charAt(0));
+            i++;
+        }
 	    //listen for messages
 		    //verify messages and then add the messages to the array roundMessages
             //put messages into arrays

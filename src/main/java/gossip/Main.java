@@ -29,9 +29,11 @@ public static void main(String[] args) {
     });*/
 
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {new InetSocketAddress("10.152.56.137", 8080), new InetSocketAddress("10.154.58.59", 8080),}; // TODO: Hardcode the receivers' IPs
+    InetSocketAddress[] targetAddress = {new InetSocketAddress("10.152.56.137", 8080),
+            new InetSocketAddress("10.154.58.59", 8080),
+    }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 3; i++) {
         Member initialTarget = new Member(targetAddress[i], 0, config, "0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
         firstNode.network.sendMessage(initialTarget, firstNode.sendMsg);
@@ -40,14 +42,18 @@ public static void main(String[] args) {
     long[] votes = firstNode.getMessages(currTime);
     firstNode.printVotes(votes);
     long numOfZeros;
+
     long numOfOnes;
+    int penultimateStep = 0;
+while(true){	
     switch (firstNode.stepNumber % 3) {
         case 0:
-            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
                 firstNode.changeSendMsg("0*");
+	
             }
             if (numOfOnes >= 2 * firstNode.votes.length / 3) {
                 firstNode.changeSendMsg("1");
@@ -55,7 +61,7 @@ public static void main(String[] args) {
                 firstNode.changeSendMsg("0");
             }
         case 1:
-            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -67,7 +73,7 @@ public static void main(String[] args) {
                 firstNode.changeSendMsg("1");
             }
         case 2:
-            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
             numOfZeros = firstNode.numZeros(firstNode.votes);
             numOfOnes = firstNode.numOnes(firstNode.votes);
             if (numOfZeros >= 2 * firstNode.votes.length / 3) {
@@ -81,8 +87,15 @@ public static void main(String[] args) {
                 firstNode.changeSendMsg(Integer.toString(b));
             }
     }
+    if(firstNode.str.contains("*")){
+	    penultimateStep = firstNode.stepNumber;
+	}
     firstNode.updateStepNumber();
+    if(firstNode.stepNumber == (penultimateStep + 1) && penultimateStep != 0){
 
+		break;
+	}
+}
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
     /*for(int i = 1; i <= 3; i++) {
