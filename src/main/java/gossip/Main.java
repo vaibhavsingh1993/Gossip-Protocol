@@ -40,71 +40,71 @@ public static void main(String[] args) {
         firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
         i++;
     }
-    long currTime = System.currentTimeMillis();
-
+    long currTime;
     long numOfZeros;
     long[] votes;
     long numOfOnes;
     int penultimateStep = 0;
-while(true){
-    votes = firstNode.getMessages(currTime);
-    firstNode.printVotes(votes);
-    switch (firstNode.stepNumber % 3) {
-        case 0:
-//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-            numOfZeros = firstNode.numZeros(votes);
-            numOfOnes = firstNode.numOnes(votes);
-            if (numOfZeros >= 2 * votes.length / 3) {
-                firstNode.changeSendMsg("0*");
+    while(true){
+        currTime = System.currentTimeMillis();
+        votes = firstNode.getMessages(currTime);
+        firstNode.printVotes(votes);
+        switch (firstNode.stepNumber % 3) {
+            case 0:
+    //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+                numOfZeros = firstNode.numZeros(votes);
+                numOfOnes = firstNode.numOnes(votes);
+                if (numOfZeros >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("0*");
 
+                }
+                if (numOfOnes >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("1");
+                } else {
+                    firstNode.changeSendMsg("0");
+                }
+                break;
+            case 1:
+    //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+                numOfZeros = firstNode.numZeros(votes);
+                numOfOnes = firstNode.numOnes(votes);
+                if (numOfZeros >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("0");
+                }
+                if (numOfOnes >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("1*");
+                } else {
+                    firstNode.changeSendMsg("1");
+                }
+                break;
+            case 2:
+    //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+                numOfZeros = firstNode.numZeros(votes);
+                numOfOnes = firstNode.numOnes(votes);
+                if (numOfZeros >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("0");
+                }
+                if (numOfOnes >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("1");
+                } else {
+                    //write code to get coin genuinely tossed
+                    int b = Math.round((float) Math.random());
+                    firstNode.changeSendMsg(Integer.toString(b));
+                }
+                break;
             }
-            if (numOfOnes >= 2 * votes.length / 3) {
-                firstNode.changeSendMsg("1");
-            } else {
-                firstNode.changeSendMsg("0");
-            }
-            break;
-        case 1:
-//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-            numOfZeros = firstNode.numZeros(votes);
-            numOfOnes = firstNode.numOnes(votes);
-            if (numOfZeros >= 2 * votes.length / 3) {
-                firstNode.changeSendMsg("0");
-            }
-            if (numOfOnes >= 2 * votes.length / 3) {
-                firstNode.changeSendMsg("1*");
-            } else {
-                firstNode.changeSendMsg("1");
-            }
-            break;
-        case 2:
-//            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-            numOfZeros = firstNode.numZeros(votes);
-            numOfOnes = firstNode.numOnes(votes);
-            if (numOfZeros >= 2 * votes.length / 3) {
-                firstNode.changeSendMsg("0");
-            }
-            if (numOfOnes >= 2 * votes.length / 3) {
-                firstNode.changeSendMsg("1");
-            } else {
-                //write code to get coin genuinely tossed
-                int b = Math.round((float) Math.random());
-                firstNode.changeSendMsg(Integer.toString(b));
-            }
+        if(firstNode.str.contains("*")){
+            penultimateStep = firstNode.stepNumber;
+        }
+        firstNode.updateStepNumber();
+        if(firstNode.stepNumber == (penultimateStep + 1) && penultimateStep != 0){
+
             break;
         }
-    if(firstNode.str.contains("*")){
-	    penultimateStep = firstNode.stepNumber;
-	}
-    firstNode.updateStepNumber();
-    if(firstNode.stepNumber == (penultimateStep + 1) && penultimateStep != 0){
-
-		break;
-	}
-    for (String key : memberList.keySet()) {
-        firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+        for (String key : memberList.keySet()) {
+            firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+        }
     }
-}
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
     /*for(int i = 1; i <= 3; i++) {
