@@ -30,7 +30,7 @@ public static void main(String[] args) {
 
     //firstNode.start();
     InetSocketAddress[] targetAddress = {new InetSocketAddress("35.203.179.217", 8081),
-            new InetSocketAddress("35.233.232.94", 8081), new InetSocketAddress("35.245.51.164", 8081)
+            new InetSocketAddress("35.233.232.94", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.215.147", 8081)
 }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     int i = 0;

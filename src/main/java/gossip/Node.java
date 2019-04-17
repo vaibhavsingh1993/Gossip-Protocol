@@ -9,7 +9,7 @@ public class Node {
 	int stepNumber = -1;
 	String str = "";
     long[][] roundMessages = {{0,10},{1,5},{0,3},{0,10},{1,1}};
-    long[] votes = {0,1,0};
+    long[] votes = {0, 0, 0, 0};
     int currentStep;
     long currTime= System.currentTimeMillis();
     long endTime = currTime + 5000;
@@ -25,11 +25,11 @@ public class Node {
 		 String rcvMsg = rcvdObj.toString();
 		 //String rcvMsg = "0";
 		 if (rcvMsg.length() == 1){
-			votes[i%3] = (long) Integer.valueOf(rcvMsg);
+			votes[i%votes.length] = (long) Integer.valueOf(rcvMsg);
 			i++;
 		 }
         if (rcvMsg.length() == 2){
-            votes[i%3] = (long) Integer.valueOf(rcvMsg.charAt(0));
+            votes[i%votes.length] = (long) Integer.valueOf(rcvMsg.charAt(0));
             i++;
         }
 	    //listen for messages
