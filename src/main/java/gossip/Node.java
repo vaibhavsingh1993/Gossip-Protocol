@@ -20,9 +20,13 @@ public class Node {
 
 	public long[] getMessages(long currTime) {
 	    int i = 0;
-	    while(System.currentTimeMillis()<currTime + 5000){
+	    int j = 0;
+	    //while(System.currentTimeMillis()<currTime + 5000){
+	    while(j < 4) {
+		 System.out.println("inside getMEssages");
 		 Object rcvdObj = network.receiveMessage();
 		 String rcvMsg = rcvdObj.toString();
+		 System.out.println("rcvMsg is " + rcvMsg);
 		 //String rcvMsg = "0";
 		 if (rcvMsg.length() == 1){
 			votes[i%votes.length] = (long) Integer.valueOf(rcvMsg);
@@ -35,10 +39,12 @@ public class Node {
 	    //listen for messages
 		    //verify messages and then add the messages to the array roundMessages
             //put messages into arrays
+		j++;
 	    }
         return votes;
     }
 	public void printVotes(long list[]){
+		System.out.println("from printVotes");
 		for (int i = 0; i < list.length; i++){
 			System.out.println(list[i]);
 		}

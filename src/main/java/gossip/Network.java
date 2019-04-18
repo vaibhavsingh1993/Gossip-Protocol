@@ -71,7 +71,6 @@ public class Network {
 	public Object receiveMessage() {
 		try {
 			socket.receive(receivePacket);
-			
 			ObjectInputStream iStream = new ObjectInputStream(new ByteArrayInputStream(receivePacket.getData()));
             Object rcvdObj = null;
             try {
@@ -79,6 +78,7 @@ public class Network {
             } catch (ClassNotFoundException e) {
 				Gossip.logger.log("Error calling readObject() on an ObjectInputStream object: " + e.getMessage());
 			}
+	    System.out.println("rcvdObj is " + rcvdObj.toString());
             iStream.close();
             return rcvdObj;
             /*Member message = null;

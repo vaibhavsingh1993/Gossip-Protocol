@@ -21,7 +21,7 @@ public static void main(String[] args) {
         System.out.println("Gossip Error: " + message);
     });
     // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("127.0.0.1", 8081), config, "0", 0);
+    Node firstNode = new Node(new InetSocketAddress("localhost", 8081), config, "0", 0);
   
 /*    firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
@@ -39,6 +39,7 @@ public static void main(String[] args) {
     }
     for (String key: memberList.keySet()) {
         firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+	System.out.println("firstNode sendMsg is " + firstNode.sendMsg);
     }
     long currTime;
     long numOfZeros;
@@ -47,13 +48,17 @@ public static void main(String[] args) {
     int penultimateStep = 0;
     while(true){
         currTime = System.currentTimeMillis();
+	System.out.println("currtime is " + currTime);
         votes = firstNode.getMessages(currTime);
         firstNode.printVotes(votes);
         switch (firstNode.stepNumber % 3) {
             case 0:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-                numOfZeros = firstNode.numZeros(votes);
+		System.out.println("inside case 0");
+    		numOfZeros = firstNode.numZeros(votes);
                 numOfOnes = firstNode.numOnes(votes);
+		System.out.println("numOfZeros is " + numOfZeros);
+		System.out.println("numOfOnes is " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
                     firstNode.changeSendMsg("0*");
 
@@ -66,8 +71,11 @@ public static void main(String[] args) {
                 break;
             case 1:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-                numOfZeros = firstNode.numZeros(votes);
+		System.out.println("Inside case 1");
+		numOfZeros = firstNode.numZeros(votes);
                 numOfOnes = firstNode.numOnes(votes);
+                System.out.println("numOfZeros is " + numOfZeros);
+                System.out.println("numOfOnes is " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
                     firstNode.changeSendMsg("0");
                 }
@@ -81,6 +89,9 @@ public static void main(String[] args) {
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
                 numOfZeros = firstNode.numZeros(votes);
                 numOfOnes = firstNode.numOnes(votes);
+		System.out.println("inside case 2");
+                System.out.println("numOfZeros is " + numOfZeros);
+                System.out.println("numOfOnes is " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
                     firstNode.changeSendMsg("0");
                 }
@@ -93,16 +104,16 @@ public static void main(String[] args) {
                 }
                 break;
             }
-        if(firstNode.str.contains("*")){
+        if(firstNode.sendMsg.contains("*")){
             penultimateStep = firstNode.stepNumber;
         }
         firstNode.updateStepNumber();
-        if(firstNode.stepNumber == (penultimateStep + 1) && penultimateStep != 0){
-
-            break;
-        }
         for (String key : memberList.keySet()) {
             firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+        }
+	if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){
+
+            break;
         }
     }
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
