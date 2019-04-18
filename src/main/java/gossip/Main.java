@@ -29,8 +29,8 @@ public static void main(String[] args) {
     });*/
 
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {new InetSocketAddress("35.203.179.217", 8081),
-            new InetSocketAddress("35.233.232.94", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.215.147", 8081)
+    InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 8081),
+            new InetSocketAddress("35.230.171.17", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.215.147", 8081)
 }; // TODO: Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     for (int j=0; j<targetAddress.length; j++) {
