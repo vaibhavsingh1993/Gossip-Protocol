@@ -24,14 +24,14 @@ public class Node {
 	    //while(System.currentTimeMillis()<currTime + 5000){
 	    while(j < 4) {
 		 //System.out.println("inside getMEssages");
-		 /*Object rcvdObj = network.receiveMessage();
+		 Object rcvdObj = network.receiveMessage();
 		 String rcvMsg = rcvdObj.toString();
 		 String[] strs = rcvMsg.split(",");
 		 String bit = strs[0];
 		 String step = strs[1];
-		 System.out.println("Received bit: " + bit + ", Received step: " + step);*/
-		 String bit = "0";
-		 String step = "0";
+		 System.out.println("Received bit: " + bit + ", Received step: " + step);
+		 //String bit = "0";
+		 //String step = "0";
 		 if (Integer.valueOf(step) == currStep && bit.length() == 1){
 			votes[i%votes.length] = (long) Integer.valueOf(bit);
 			i++;
