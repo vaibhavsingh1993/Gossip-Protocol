@@ -26,7 +26,7 @@ public class Network {
 	}
 	
 	public void sendMessage(Member target, String message) {
-        System.out.println(message + " of type String is being sent out.");
+        //System.out.println(message + " of type String is being sent out.");
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 		try {
 			ObjectOutput oo = new ObjectOutputStream(bStream); 
