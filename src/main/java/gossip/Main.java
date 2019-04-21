@@ -1,8 +1,13 @@
 package main.java.gossip;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
-
+import java.nio.channels.FileLock;
+import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import main.java.gossip.Config;
 import main.java.gossip.Gossip;
 
@@ -15,104 +20,102 @@ public static void main(String[] args) {
             Duration.ofMillis(200), // how often the Gossip protocol checks if any members have failed
             3                       // the number of nodes to send the membership list to when broadcasting.
     );
-
     // Set how the error messages will be handled.
     Node.setLogger((message) -> {
         System.out.println("Gossip Error: " + message);
     });
     // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("localhost", 8081), config, "0", 0);
-  
-/*    firstNode.setOnNewMemberHandler( (address) -> {
+    Node firstNode = new Node(new InetSocketAddress("localhost", 8081), config, "0,0", 0);
+    /*firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
         System.out.println();
     });*/
-
     //firstNode.start();
     InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 8081),
             new InetSocketAddress("35.230.171.17", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.215.147", 8081)
-}; // TODO: Hardcode the receivers' IPs
-    ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
+}; // Hardcode the receivers' IPs
+    ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
-        Member initialTarget = new Member(targetAddress[j], 0, config, "0");
+        Member initialTarget = new Member(targetAddress[j], 0, config, "0,0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
     }
     for (String key: memberList.keySet()) {
         firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
-	System.out.println("firstNode sendMsg is " + firstNode.sendMsg);
+	    System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
     }
     long currTime;
     long numOfZeros;
     long[] votes;
     long numOfOnes;
-    int penultimateStep = 0;
+    int penultimateStep = -1;
     while(true){
+        int step = firstNode.stepNumber % 3;
         currTime = System.currentTimeMillis();
-	System.out.println("currtime is " + currTime);
-        votes = firstNode.getMessages(currTime);
+	    //System.out.println("Current time: " + currTime);
+        votes = firstNode.getMessages(currTime, step);
         firstNode.printVotes(votes);
-        switch (firstNode.stepNumber % 3) {
+        switch (step) {
             case 0:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-		System.out.println("inside case 0");
-    		numOfZeros = firstNode.numZeros(votes);
+		        System.out.println("Inside case 0");
+    		    numOfZeros = firstNode.numZeros(votes);
                 numOfOnes = firstNode.numOnes(votes);
-		System.out.println("numOfZeros is " + numOfZeros);
-		System.out.println("numOfOnes is " + numOfOnes);
+		        System.out.println("numOfZeros: " + numOfZeros);
+		        System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0*");
-
-                }
-                if (numOfOnes >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("1");
+                    firstNode.changeSendMsg("0*,1");
+                    System.out.println("0*,1 will be the next sending message from " + firstNode.self.getUniqueId());
+                } else if (numOfOnes >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("1,1");
                 } else {
-                    firstNode.changeSendMsg("0");
+                    firstNode.changeSendMsg("0,1");
                 }
                 break;
             case 1:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-		System.out.println("Inside case 1");
-		numOfZeros = firstNode.numZeros(votes);
+		        System.out.println("Inside case 1");
+		        numOfZeros = firstNode.numZeros(votes);
                 numOfOnes = firstNode.numOnes(votes);
-                System.out.println("numOfZeros is " + numOfZeros);
-                System.out.println("numOfOnes is " + numOfOnes);
+                System.out.println("numOfZeros: " + numOfZeros);
+                System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0");
-                }
-                if (numOfOnes >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("1*");
+                    firstNode.changeSendMsg("0,2");
+                } else if (numOfOnes >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("1*,2");
+                    System.out.println("1*,1 will be the next sending message from " + firstNode.self.getUniqueId());
                 } else {
-                    firstNode.changeSendMsg("1");
+                    firstNode.changeSendMsg("1,2");
                 }
                 break;
             case 2:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
                 numOfZeros = firstNode.numZeros(votes);
                 numOfOnes = firstNode.numOnes(votes);
-		System.out.println("inside case 2");
+		        System.out.println("inside case 2");
                 System.out.println("numOfZeros is " + numOfZeros);
                 System.out.println("numOfOnes is " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0");
-                }
-                if (numOfOnes >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("1");
+                    firstNode.changeSendMsg("0,0");
+                } else if (numOfOnes >= 2 * votes.length / 3) {
+                    firstNode.changeSendMsg("1,0");
                 } else {
                     //write code to get coin genuinely tossed
                     int b = Math.round((float) Math.random());
-                    firstNode.changeSendMsg(Integer.toString(b));
+                    firstNode.changeSendMsg(Integer.toString(b) + ",0");
                 }
                 break;
-            }
+        }
         if(firstNode.sendMsg.contains("*")){
             penultimateStep = firstNode.stepNumber;
+            //System.out.println("Message being sent out contains '*' from " + firstNode.self.getPort());
         }
         firstNode.updateStepNumber();
         for (String key : memberList.keySet()) {
             firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+            System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
         }
-	if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){
-
+	    // todo: every node is going to stop after step 0 cuz stepnumber always equals to penultimateStep + 1?!
+        if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){
             break;
         }
     }

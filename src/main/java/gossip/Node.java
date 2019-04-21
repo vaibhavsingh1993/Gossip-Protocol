@@ -18,24 +18,28 @@ public class Node {
 		this.stepNumber++;
 	}
 
-	public long[] getMessages(long currTime) {
+	public long[] getMessages(long currTime, int currStep) {
 	    int i = 0;
 	    int j = 0;
 	    //while(System.currentTimeMillis()<currTime + 5000){
 	    while(j < 4) {
-		 System.out.println("inside getMEssages");
-		 Object rcvdObj = network.receiveMessage();
+		 //System.out.println("inside getMEssages");
+		 /*Object rcvdObj = network.receiveMessage();
 		 String rcvMsg = rcvdObj.toString();
-		 System.out.println("rcvMsg is " + rcvMsg);
-		 //String rcvMsg = "0";
-		 if (rcvMsg.length() == 1){
-			votes[i%votes.length] = (long) Integer.valueOf(rcvMsg);
+		 String[] strs = rcvMsg.split(",");
+		 String bit = strs[0];
+		 String step = strs[1];
+		 System.out.println("Received bit: " + bit + ", Received step: " + step);*/
+		 String bit = "0";
+		 String step = "0";
+		 if (Integer.valueOf(step) == currStep && bit.length() == 1){
+			votes[i%votes.length] = (long) Integer.valueOf(bit);
 			i++;
-		 }
-        if (rcvMsg.length() == 2){
-            votes[i%votes.length] = (long) Integer.valueOf(rcvMsg.charAt(0));
+		 } // todo: what should we do if we recevie a bit from wrong step?
+		 if (Integer.valueOf(step) == currStep && bit.length() == 2){
+            votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
             i++;
-        }
+         }
 	    //listen for messages
 		    //verify messages and then add the messages to the array roundMessages
             //put messages into arrays
@@ -43,6 +47,7 @@ public class Node {
 	    }
         return votes;
     }
+
 	public void printVotes(long list[]){
 		System.out.println("from printVotes");
 		for (int i = 0; i < list.length; i++){
@@ -78,7 +83,7 @@ public class Node {
     public Network network;
     // instantiate a default logger that does not log anything
     static Logger logger = (message) -> {};
-    private Member self = null;
+    public Member self = null;
     private ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     private boolean stopped = false;
     public String sendMsg;
@@ -98,7 +103,7 @@ public class Node {
         this.listeningAddress = listeningAddress;
         this.network = new Network(listeningAddress.getPort());
         self = new Member(listeningAddress, 0, config, message);
-        sendMsg = message;
+        sendMsg = message; // Format: Bit, Step
         memberList.put(self.getUniqueId(), self);
         this.stepNumber = steps;
     }
