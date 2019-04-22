@@ -13,6 +13,8 @@ public class Node {
     int currentStep;
     long currTime= System.currentTimeMillis();
     long endTime = currTime + 5000;
+    ArrayList<Integer> fixed_votes = new ArrayList<>();
+    int finished_node = 0;
 
 	public void updateStepNumber() {
 		this.stepNumber++;
@@ -24,7 +26,7 @@ public class Node {
             System.out.println("Message 'Ready' is sent out from '" + self.getUniqueId() + "'");
         }
         int ready = 0;
-        while (ready < memberList.size()) {
+        while (ready < memberList.size()-finished_node) {
             Object rcvdObj = network.receiveMessage();
             String rcvMsg = rcvdObj.toString();
             if(rcvMsg.equals("Ready")) ready++;
@@ -36,6 +38,11 @@ public class Node {
 	    int i = 0;
 	    int j = 0;
 	    //while(System.currentTimeMillis()<currTime + 5000){
+        for(int k=0; k<fixed_votes.size(); k++) {
+            votes[i%votes.length] = (long) fixed_votes.get(k);
+            i++;
+            j++;
+        }
 	    while(j < 4) {
 		 //System.out.println("inside getMEssages");
 		 Object rcvdObj = network.receiveMessage();
@@ -53,6 +60,8 @@ public class Node {
 		 } // todo: what should we do if we recevie a bit from wrong step?
 		 if (Integer.valueOf(step) == currStep && bit.length() == 2){
             votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
+            fixed_votes.add(Integer.valueOf(bit.charAt(0)));
+            finished_node++;
             i++;
          }
 	    //listen for messages
