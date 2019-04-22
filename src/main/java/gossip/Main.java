@@ -48,7 +48,7 @@ public static void main(String[] args) {
         currTime = System.currentTimeMillis();
 	    //System.out.println("Current time: " + currTime);
         votes = firstNode.getMessages(currTime, step);
-        firstNode.sync(); // Wait until all other nodes is ready for the next step
+        firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
         switch (step) {
             case 0:

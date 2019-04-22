@@ -20,7 +20,8 @@ public class Node {
 		this.stepNumber++;
 	}
 
-	public void sync() {
+	public void sync(ConcurrentHashMap<String, Member> memberList) {
+	    System.out.println("Sync with " + memberList.size() + " members (including itself)");
         for (String key: memberList.keySet()) {
             network.sendMessage(memberList.get(key), "Ready");
             System.out.println("Message 'Ready' is sent out from '" + self.getUniqueId() + "'");
