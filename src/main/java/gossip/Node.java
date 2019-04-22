@@ -29,7 +29,9 @@ public class Node {
         while (ready < memberList.size()-finished_node) {
             Object rcvdObj = network.receiveMessage();
             String rcvMsg = rcvdObj.toString();
-            if(rcvMsg.equals("Ready")) ready++;
+            if(rcvMsg.equals("Ready")) {
+                ready++;
+            }
             System.out.println("Message '" + rcvMsg + "' is received");
         }
     }
