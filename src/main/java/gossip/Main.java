@@ -3,11 +3,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
-import java.nio.channels.FileLock;
-import java.nio.channels.FileChannel;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import main.java.gossip.Config;
 import main.java.gossip.Gossip;
 
@@ -53,6 +48,7 @@ public static void main(String[] args) {
         currTime = System.currentTimeMillis();
 	    //System.out.println("Current time: " + currTime);
         votes = firstNode.getMessages(currTime, step);
+        firstNode.sync(); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
         switch (step) {
             case 0:

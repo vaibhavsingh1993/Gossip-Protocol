@@ -18,6 +18,20 @@ public class Node {
 		this.stepNumber++;
 	}
 
+	public void sync() {
+        for (String key: memberList.keySet()) {
+            network.sendMessage(memberList.get(key), "Ready");
+            System.out.println("Message 'Ready' is sent out from '" + self.getUniqueId() + "'");
+        }
+        int ready = 0;
+        while (ready < memberList.size()) {
+            Object rcvdObj = network.receiveMessage();
+            String rcvMsg = rcvdObj.toString();
+            if(rcvMsg.equals("Ready")) ready++;
+            System.out.println("Message '" + rcvMsg + "' is received");
+        }
+    }
+
 	public long[] getMessages(long currTime, int currStep) {
 	    int i = 0;
 	    int j = 0;
@@ -29,6 +43,7 @@ public class Node {
 		 String[] strs = rcvMsg.split(",");
 		 String bit = strs[0];
 		 String step = strs[1];
+		 if(Integer.valueOf(step)!=currStep) continue;
 		 System.out.println("Received bit: " + bit + ", Received step: " + step);
 		 //String bit = "0";
 		 //String step = "0";
