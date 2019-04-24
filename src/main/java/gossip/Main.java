@@ -21,7 +21,7 @@ public static void main(String[] args) {
         System.out.println("Gossip Error: " + message);
     });
     // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("localhost", 8081), config, "1,0", 0);
+    Node firstNode = new Node(new InetSocketAddress("localhost", 8081), config, "0,0", 0);
     /*firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
         System.out.println();
