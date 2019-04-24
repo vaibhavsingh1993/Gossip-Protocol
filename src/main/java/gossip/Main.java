@@ -21,20 +21,31 @@ public static void main(String[] args) {
         System.out.println("Gossip Error: " + message);
     });
     // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("localhost", 8081), config, "0,0", 0);
+    Node firstNode = new Node(new InetSocketAddress("localhost", 6991), config, "0,0, gossip3", 0);
     /*firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
         System.out.println();
     });*/
     //firstNode.start();
-    InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 8081),
-            new InetSocketAddress("35.230.171.17", 8081), new InetSocketAddress("35.245.51.164",
-            8081), new InetSocketAddress("35.245.197.58", 8081)}; // Hardcode the receivers' IPs
+    InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 6991),
+            new InetSocketAddress("35.230.171.17", 6991), new InetSocketAddress("35.245.51.164", 6991), new InetSocketAddress("35.245.197.58", 6991)
+}; // Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
         Member initialTarget = new Member(targetAddress[j], 0, config, "0,0");
         memberList.put(initialTarget.getUniqueId(), initialTarget);
     }
+
+
+        try {
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
+
     for (String key: memberList.keySet()) {
         firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
 	    System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
@@ -47,15 +58,10 @@ public static void main(String[] args) {
     while(true){
         int step = firstNode.stepNumber % 3;
         currTime = System.currentTimeMillis();
-	    //System.out.println("Current time: " + currTime);
+	System.out.println("Inside BA gossip3: " + currTime);
         votes = firstNode.getMessages(currTime, step);
         //firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
-        try {
-            TimeUnit.MINUTES.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         switch (step) {
             case 0:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
@@ -65,12 +71,12 @@ public static void main(String[] args) {
 		        System.out.println("numOfZeros: " + numOfZeros);
 		        System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0*,1");
-                    System.out.println("0*,1 will be the next sending message from " + firstNode.self.getUniqueId());
+                    firstNode.changeSendMsg("0*," + firstNode.stepNumber);
+                    System.out.println("0*," + firstNode.stepNumber +  "will be the next sending message from " + firstNode.self.getUniqueId());
                 } else if (numOfOnes >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("1,1");
+                    firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1) );
                 } else {
-                    firstNode.changeSendMsg("0,1");
+                    firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
                 }
                 break;
             case 1:
@@ -81,12 +87,12 @@ public static void main(String[] args) {
                 System.out.println("numOfZeros: " + numOfZeros);
                 System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0,2");
+                    firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
                 } else if (numOfOnes >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("1*,2");
+                    firstNode.changeSendMsg("1*," + (firstNode.stepNumber + 1));
                     System.out.println("1*,1 will be the next sending message from " + firstNode.self.getUniqueId());
                 } else {
-                    firstNode.changeSendMsg("1,2");
+                    firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1));
                 }
                 break;
             case 2:
@@ -97,13 +103,13 @@ public static void main(String[] args) {
                 System.out.println("numOfZeros is " + numOfZeros);
                 System.out.println("numOfOnes is " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0,0");
+                    firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
                 } else if (numOfOnes >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("1,0");
+                    firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1));
                 } else {
                     //write code to get coin genuinely tossed
                     int b = Math.round((float) Math.random());
-                    firstNode.changeSendMsg(Integer.toString(b) + ",0");
+                    firstNode.changeSendMsg(Integer.toString(b) + ", " + (firstNode.stepNumber + 1));
                 }
                 break;
         }
@@ -124,8 +130,8 @@ public static void main(String[] args) {
     // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
     // first node, the first node will eventually have a membership list with all the nodes in it.
     /*for(int i = 1; i <= 3; i++) {
-        Node n = new Node( new InetSocketAddress("127.0.0.1", 8080 + i),
-                               new InetSocketAddress("127.0.0.1", 8080 + i - 1), config, "test: node " + i);
+        Node n = new Node( new InetSocketAddress("127.0.0.1", 6991 + i),
+                               new InetSocketAddress("127.0.0.1", 6991 + i - 1), config, "test: node " + i);
         n.start();
     }*/
 }
