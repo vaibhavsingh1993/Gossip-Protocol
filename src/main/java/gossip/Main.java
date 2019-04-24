@@ -52,7 +52,7 @@ public static void main(String[] args) {
         //firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
         try {
-            TimeUnit.SECONDS.sleep(30);
+            TimeUnit.MINUTES.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
