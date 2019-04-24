@@ -47,30 +47,30 @@ public class Node {
             j++;
         }
 	    while(j < 4) {
-		 //System.out.println("inside getMEssages");
-		 Object rcvdObj = network.receiveMessage();
-		 String rcvMsg = rcvdObj.toString();
-		 String[] strs = rcvMsg.split(",");
-		 String bit = strs[0];
-		 String step = strs[1];
-		 if(Integer.valueOf(step)!=currStep) continue;
-		 System.out.println("Received bit: " + bit + ", Received step: " + step);
-		 //String bit = "0";
-		 //String step = "0";
-		 if (Integer.valueOf(step) == currStep && bit.length() == 1){
-			votes[i%votes.length] = (long) Integer.valueOf(bit);
-			i++;
-		 } // todo: what should we do if we recevie a bit from wrong step?
-		 if (Integer.valueOf(step) == currStep && bit.length() == 2){
-            votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
-            fixed_votes.add(Integer.valueOf(bit.charAt(0)));
-            finished_node++;
-            i++;
-         }
-	    //listen for messages
-		    //verify messages and then add the messages to the array roundMessages
+            //System.out.println("inside getMEssages");
+            Object rcvdObj = network.receiveMessage();
+            String rcvMsg = rcvdObj.toString();
+            String[] strs = rcvMsg.split(",");
+            String bit = strs[0];
+            String step = strs[1];
+            if(Integer.valueOf(step)!=currStep) continue;
+            System.out.println("Received bit: " + bit + ", Received step: " + step);
+            //String bit = "0";
+            //String step = "0";
+            if (Integer.valueOf(step) == currStep && bit.length() == 1){
+                votes[i%votes.length] = (long) Integer.valueOf(bit);
+                i++;
+            } // todo: what should we do if we recevie a bit from wrong step?
+            if (Integer.valueOf(step) == currStep && bit.length() == 2){
+                votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
+                fixed_votes.add(Integer.valueOf(bit.charAt(0)));
+                finished_node++;
+                i++;
+            }
+            //listen for messages
+            //verify messages and then add the messages to the array roundMessages
             //put messages into arrays
-		j++;
+            j++;
 	    }
         return votes;
     }
