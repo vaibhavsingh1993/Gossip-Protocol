@@ -121,6 +121,7 @@ public class Node {
     private GossipUpdater onFailedMember = null;
     private GossipUpdater onRemovedMember = null;
     private GossipUpdater onRevivedMember = null;
+    private Boolean isAdversary = false;
 
     /**
      * initialize gossip protocol as the first node in the system.
@@ -134,6 +135,12 @@ public class Node {
         memberList.put(self.getUniqueId(), self);
         this.stepNumber = steps;
     }
+
+    public Node(InetSocketAddress listeningAddress, Config config, String message, int steps, Boolean isAdversary) {
+	this(listeningAddress, config, message, steps);
+	this.isAdversary = isAdversary;
+    }
+
 
     /**
      * Connect to another node in the gossip protocol and begin fault tolerance

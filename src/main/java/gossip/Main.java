@@ -7,6 +7,13 @@ import java.util.concurrent.TimeUnit;
 import main.java.gossip.Config;
 import main.java.gossip.Gossip;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.InputStream;
+
 public class Main {
 public static void main(String[] args) {
     Config config = new Config(
@@ -16,12 +23,42 @@ public static void main(String[] args) {
             Duration.ofMillis(200), // how often the Gossip protocol checks if any members have failed
             3                       // the number of nodes to send the membership list to when broadcasting.
     );
+
+	Properties prop = new Properties();
+        try (InputStream input = new FileInputStream("src/config.properties")) {
+            prop.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
     // Set how the error messages will be handled.
     Node.setLogger((message) -> {
         System.out.println("Gossip Error: " + message);
     });
-    // TODO: Distribute a seed to nodes
-    Node firstNode = new Node(new InetSocketAddress("localhost", 6991), config, "0,0, gossip3", 0);
+    String vmname = prop.getProperty("vmname");
+    String[] seeds = prop.getProperty("seed").split(",");
+    String[] adversaries = prop.getProperty("adversaries").split(",");
+    String seed;
+    Boolean isNodeAnAdversary;
+
+    // TODO: refactor this crap.
+    if (vmname.equals("gossip1")) {
+	seed = seeds[0];
+	isNodeAnAdversary = Boolean.parseBoolean(adversaries[0]);
+    } else if (vmname.equals("gossip2")) {
+	seed = seeds[1];
+	isNodeAnAdversary = Boolean.parseBoolean(adversaries[1]);
+    } else if (vmname.equals("gossip3")) {
+	seed = seeds[2];
+	isNodeAnAdversary = Boolean.parseBoolean(adversaries[2]);
+    } else if (vmname.equals("gossip5")) {
+	seed = seeds[3];
+	isNodeAnAdversary = Boolean.parseBoolean(adversaries[3]);
+    } else {
+	 seed = "0";
+	 isNodeAnAdversary = false;
+    }
+    Node firstNode = new Node(new InetSocketAddress("localhost", 6991), config, seed + ",0", 0, isNodeAnAdversary);
     /*firstNode.setOnNewMemberHandler( (address) -> {
         System.out.println(address + " connected to node 0 (first node)");
         System.out.println();
