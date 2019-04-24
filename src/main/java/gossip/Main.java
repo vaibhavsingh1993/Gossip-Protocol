@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.time.Duration;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import main.java.gossip.Config;
 import main.java.gossip.Gossip;
 
@@ -50,6 +51,11 @@ public static void main(String[] args) {
         votes = firstNode.getMessages(currTime, step);
         firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         switch (step) {
             case 0:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
