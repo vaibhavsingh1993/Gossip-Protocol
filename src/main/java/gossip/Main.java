@@ -28,7 +28,7 @@ public static void main(String[] args) {
     });*/
     //firstNode.start();
     InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 8081),
-            new InetSocketAddress("35.230.171.17", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.215.147", 8081)
+            new InetSocketAddress("35.230.171.17", 8081), new InetSocketAddress("35.245.51.164", 8081), new InetSocketAddress("35.245.197.58", 8081)
 }; // Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
@@ -49,10 +49,10 @@ public static void main(String[] args) {
         currTime = System.currentTimeMillis();
 	    //System.out.println("Current time: " + currTime);
         votes = firstNode.getMessages(currTime, step);
-        firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
+        //firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(30);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
