@@ -59,11 +59,11 @@ public class Node {
             //String bit = "0";
             //String step = "0";
             if (caseNum == currStep && bit.length() == 1){
-                votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
+                votes[i%votes.length] = (long) Integer.valueOf(bit);
                 i++;
             } // todo: what should we do if we recevie a bit from wrong step?
             if (caseNum == currStep && bit.length() == 2){
-                votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
+                votes[i%votes.length] = (long) Integer.valueOf(Character.toString(bit.charAt(0)));
                 fixed_votes.add(Integer.valueOf(bit.charAt(0)));
                 i++;
             }
