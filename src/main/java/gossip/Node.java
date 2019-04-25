@@ -64,7 +64,7 @@ public class Node {
             } // todo: what should we do if we recevie a bit from wrong step?
             if (caseNum == currStep && bit.length() == 2){
                 votes[i%votes.length] = (long) Integer.valueOf(Character.toString(bit.charAt(0)));
-                fixed_votes.add(Integer.valueOf(bit.charAt(0)));
+                fixed_votes.add(Integer.valueOf(Character.toString(bit.charAt(0))));
                 i++;
             }
             //listen for messages
