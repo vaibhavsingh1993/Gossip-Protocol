@@ -107,7 +107,7 @@ public static void main(String[] args) {
         }
         String nodeStep = String.valueOf(firstNode.stepNumber+1);
         if (firstNode.isAdversary) {
-            System.out.println("I am malicious");
+            //System.out.println("I am malicious");
             int b = Math.round((float) Math.random());
             firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
         } else {
