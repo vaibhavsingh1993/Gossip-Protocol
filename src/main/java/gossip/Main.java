@@ -104,6 +104,7 @@ public static void main(String[] args) {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        String nodeStep = String.valueOf(firstNode.stepNumber+1);
         switch (step) {
             case 0:
     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
@@ -113,12 +114,12 @@ public static void main(String[] args) {
 		        System.out.println("numOfZeros: " + numOfZeros);
 		        System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= (2 * votes.length) / 3 + 1) {
-                    firstNode.changeSendMsg("0*," + firstNode.stepNumber + 1);
-                    System.out.println("0*," + firstNode.stepNumber +  " will be the next sending message from " + firstNode.self.getUniqueId());
+                    firstNode.changeSendMsg("0*," + nodeStep);
+                    System.out.println("0*," + nodeStep +  " will be the next sending message from " + firstNode.self.getUniqueId());
                 } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
-                    firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1) );
+                    firstNode.changeSendMsg("1," + nodeStep);
                 } else {
-                    firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg("0," + nodeStep);
                 }
                 break;
             case 1:
@@ -129,12 +130,12 @@ public static void main(String[] args) {
                 System.out.println("numOfZeros: " + numOfZeros);
                 System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= (2 * votes.length) / 3 + 1) {
-                    firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg("0," + nodeStep);
                 } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
-                    firstNode.changeSendMsg("1*," + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg("1*," + nodeStep);
                     System.out.println("1*,1 will be the next sending message from " + firstNode.self.getUniqueId());
                 } else {
-                    firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg("1," + nodeStep);
                 }
                 break;
             case 2:
@@ -145,13 +146,13 @@ public static void main(String[] args) {
                 System.out.println("numOfZeros is " + numOfZeros);
                 System.out.println("numOfOnes is " + numOfOnes);
                 if (numOfZeros >= (2 * votes.length) / 3 + 1) {
-                    firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg("0," + nodeStep);
                 } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
-                    firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg("1," + nodeStep);
                 } else {
                     //write code to get coin genuinely tossed
                     int b = Math.round((float) Math.random());
-                    firstNode.changeSendMsg(Integer.toString(b) + ", " + (firstNode.stepNumber + 1));
+                    firstNode.changeSendMsg(Integer.toString(b) + ", " + nodeStep);
                 }
                 break;
         }
