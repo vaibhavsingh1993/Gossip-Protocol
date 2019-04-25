@@ -57,7 +57,7 @@ public class Network {
 		try {
 			ObjectOutput oo = new ObjectOutputStream(bStream); 
 			oo.writeObject(message + ","+ signedMessage);
-			System.out.println("Message sent: " + message + ","+ signedMessage.substring(0,30) + "...");
+			System.out.println("Message sent: " + message);
 			oo.close();
 		} catch (IOException e) {
 			Gossip.logger.log("Could not send " + message + " to [" + target.getSocketAddress() + "] because: " + e.getMessage());
@@ -105,7 +105,8 @@ public class Network {
             } catch (ClassNotFoundException e) {
 				Gossip.logger.log("Error calling readObject() on an ObjectInputStream object: " + e.getMessage());
 			}
-	    System.out.println("Message received: " + rcvdObj.toString().substring(0,33) + "...");
+	    System.out.println("Message received: " + rcvdObj.toString().substring(0,rcvdObj.toString().lastIndexOf(",")) +
+							", Signature Verified...");
             iStream.close();
             return rcvdObj;
             /*Member message = null;

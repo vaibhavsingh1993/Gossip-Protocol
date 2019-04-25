@@ -121,7 +121,7 @@ public static void main(String[] args) {
                     //System.out.println("numOfOnes: " + numOfOnes);
                     if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("0*," + nodeStep);
-                        System.out.println("0*," + nodeStep + " will be the next sending message from " + firstNode.self.getUniqueId());
+                        System.out.println("\n0*," + nodeStep + " will be the next sending message from " + firstNode.self.getUniqueId());
                     } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("1," + nodeStep);
                     } else {
@@ -139,7 +139,7 @@ public static void main(String[] args) {
                         firstNode.changeSendMsg("0," + nodeStep);
                     } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("1*," + nodeStep);
-                        System.out.println("1*,1 will be the next sending message from " + firstNode.self.getUniqueId());
+                        System.out.println("\n1*,1 will be the next sending message from " + firstNode.self.getUniqueId());
                     } else {
                         firstNode.changeSendMsg("1," + nodeStep);
                     }
