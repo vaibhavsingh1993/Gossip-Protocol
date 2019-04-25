@@ -6,3 +6,4 @@
 .gradle/
 build/
 
+src/priv_key.der
