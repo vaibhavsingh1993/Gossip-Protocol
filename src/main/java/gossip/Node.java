@@ -53,19 +53,18 @@ public class Node {
             String[] strs = rcvMsg.split(",");
             String bit = strs[0];
             String step = strs[1];
-            int caseNum = (Integer.valueOf(step))%3;
+            int caseNum = Integer.valueOf(step.trim()) % 3;
             if(caseNum !=currStep) continue;
             System.out.println("Received bit: " + bit + ", Received step: " + step);
             //String bit = "0";
             //String step = "0";
             if (caseNum == currStep && bit.length() == 1){
-                votes[i%votes.length] = (long) Integer.valueOf(bit);
+                votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
                 i++;
             } // todo: what should we do if we recevie a bit from wrong step?
             if (caseNum == currStep && bit.length() == 2){
                 votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
                 fixed_votes.add(Integer.valueOf(bit.charAt(0)));
-                finished_node++;
                 i++;
             }
             //listen for messages
@@ -73,6 +72,10 @@ public class Node {
             //put messages into arrays
             j++;
 	    }
+	    System.out.println("Inside getMessage, votes values are: ");
+	    for(int l=0; l<votes.length; l++) {
+            System.out.println(votes[l]);
+        }
         return votes;
     }
 
