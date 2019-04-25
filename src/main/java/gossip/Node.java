@@ -142,11 +142,11 @@ public class Node {
      * */
     public Node(InetSocketAddress listeningAddress, Config config, String message, int steps) {
         try {
-            privKey = CryptoUtil.getPrivate("key.der");
-            publicKey[0] = CryptoUtil.getPublic("public.der");
-            publicKey[1] = CryptoUtil.getPublic("public.der");
-            publicKey[2] = CryptoUtil.getPublic("public.der");
-            publicKey[3] = CryptoUtil.getPublic("public.der");  
+            privKey = CryptoUtil.getPrivate("/home/vagrant/Gossip-Protocol/src/key.der");
+            publicKey[0] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
+            publicKey[1] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
+            publicKey[2] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
+            publicKey[3] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");  
         } catch (Exception e) {
             //
         }
