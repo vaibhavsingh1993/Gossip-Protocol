@@ -43,20 +43,20 @@ public static void main(String[] args) {
 
     // TODO: refactor this crap.
     if (vmname.equals("gossip1")) {
-	seed = seeds[0];
-	isNodeAnAdversary = Boolean.parseBoolean(adversaries[0]);
+    	seed = seeds[0];
+    	isNodeAnAdversary = Boolean.parseBoolean(adversaries[0]);
     } else if (vmname.equals("gossip2")) {
-	seed = seeds[1];
-	isNodeAnAdversary = Boolean.parseBoolean(adversaries[1]);
+    	seed = seeds[1];
+    	isNodeAnAdversary = Boolean.parseBoolean(adversaries[1]);
     } else if (vmname.equals("gossip3")) {
-	seed = seeds[2];
-	isNodeAnAdversary = Boolean.parseBoolean(adversaries[2]);
+    	seed = seeds[2];
+    	isNodeAnAdversary = Boolean.parseBoolean(adversaries[2]);
     } else if (vmname.equals("gossip5")) {
-	seed = seeds[3];
-	isNodeAnAdversary = Boolean.parseBoolean(adversaries[3]);
+    	seed = seeds[3];
+    	isNodeAnAdversary = Boolean.parseBoolean(adversaries[3]);
     } else {
-	 seed = "0";
-	 isNodeAnAdversary = false;
+    	 seed = "0";
+    	 isNodeAnAdversary = false;
     }
     Node firstNode = new Node(new InetSocketAddress("localhost", 6991), config, seed + ",0", 0, isNodeAnAdversary);
     /*firstNode.setOnNewMemberHandler( (address) -> {
@@ -108,7 +108,7 @@ public static void main(String[] args) {
 		        System.out.println("numOfZeros: " + numOfZeros);
 		        System.out.println("numOfOnes: " + numOfOnes);
                 if (numOfZeros >= 2 * votes.length / 3) {
-                    firstNode.changeSendMsg("0*," + firstNode.stepNumber);
+                    firstNode.changeSendMsg("0*," + firstNode.stepNumber + 1);
                     System.out.println("0*," + firstNode.stepNumber +  "will be the next sending message from " + firstNode.self.getUniqueId());
                 } else if (numOfOnes >= 2 * votes.length / 3) {
                     firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1) );
