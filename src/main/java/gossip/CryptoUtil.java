@@ -1,3 +1,5 @@
+package main.java.gossip;
+
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -27,7 +29,6 @@ import java.io.DataInputStream;
 
 import java.io.*;
 import java.nio.file.*;
-//import java.nio.file.Paths;
 import java.security.*;
 import java.security.spec.*;
 

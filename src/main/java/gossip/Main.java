@@ -1,4 +1,5 @@
 package main.java.gossip;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.time.Duration;
@@ -108,7 +109,7 @@ public static void main(String[] args) {
         if (firstNode.isAdversary) {
             System.out.println("I am malicious");
             int b = Math.round((float) Math.random());
-            firstNode.changeSendMsg(Integer.toString(b) + ", " + nodeStep);
+            firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
         } else {
             switch (step) {
                 case 0:

@@ -4,7 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.lang.Math; 
+
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
 public class Node {
+
+    private PrivateKey privKey;
+
+    private static PublicKey[] publicKey = new PublicKey[4];
 
 	int stepNumber = -1;
 	String str = "";
@@ -53,16 +61,18 @@ public class Node {
             String[] strs = rcvMsg.split(",");
             String bit = strs[0];
             String step = strs[1];
+            String signature = strs[2];
+            Boolean signatureVerified = verifySignature(bit + "," + step, signature);
             int caseNum = Integer.valueOf(step.trim()) % 3;
             if(caseNum !=currStep) continue;
             System.out.println("Received bit: " + bit + ", Received step: " + step);
             //String bit = "0";
             //String step = "0";
-            if (caseNum == currStep && bit.length() == 1){
+            if (caseNum == currStep && bit.length() == 1 && signatureVerified){
                 votes[i%votes.length] = (long) Integer.valueOf(bit);
                 i++;
             } // todo: what should we do if we recevie a bit from wrong step?
-            if (caseNum == currStep && bit.length() == 2){
+            if (caseNum == currStep && bit.length() == 2 && signatureVerified){
                 votes[i%votes.length] = (long) Integer.valueOf(Character.toString(bit.charAt(0)));
                 fixed_votes.add(Integer.valueOf(Character.toString(bit.charAt(0))));
                 i++;
@@ -131,6 +141,17 @@ public class Node {
      * initialize gossip protocol as the first node in the system.
      * */
     public Node(InetSocketAddress listeningAddress, Config config, String message, int steps) {
+        try {
+            privKey = CryptoUtil.getPrivate("key.der");
+            publicKey[0] = CryptoUtil.getPublic("public.der");
+            publicKey[1] = CryptoUtil.getPublic("public.der");
+            publicKey[2] = CryptoUtil.getPublic("public.der");
+            publicKey[3] = CryptoUtil.getPublic("public.der");  
+        } catch (Exception e) {
+            //
+        }
+
+
         this.config = config;
         this.listeningAddress = listeningAddress;
         this.network = new Network(listeningAddress.getPort());
@@ -332,5 +353,22 @@ public class Node {
         if (newLogger != null) {
             logger = newLogger;
         }
+    }
+
+    public static Boolean verifySignature(String message, String signature) {
+        int retry = 3;
+        for (int i = 0; i < 3; i++) {
+            try {
+                if (retry > 0) {
+                    return CryptoUtil.verifySignature(message, signature, publicKey[i]);
+                } else {
+                    return false;
+                }
+            } catch (Exception ex) {
+                retry--;
+            }
+        }
+        return true;
+
     }
 }

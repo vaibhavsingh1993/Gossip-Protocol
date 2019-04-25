@@ -9,6 +9,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
+import java.security.NoSuchAlgorithmException;
+
 
 public class Network {
 	
@@ -16,8 +21,22 @@ public class Network {
 	
 	private byte[] receiveBuffer = new byte[1024];
 	private DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length); 
+
+	private PrivateKey privKey;
+
+	private PublicKey[] publicKey = new PublicKey[4];
 	
 	public Network(int portToListenOn) {
+		try {
+		    privKey = CryptoUtil.getPrivate("key.der");
+			publicKey[0] = CryptoUtil.getPublic("public.der");
+			publicKey[1] = CryptoUtil.getPublic("public.der");
+			publicKey[2] = CryptoUtil.getPublic("public.der");
+			publicKey[3] = CryptoUtil.getPublic("public.der");			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
 		try {
 			socket = new DatagramSocket(portToListenOn);
 		} catch (SocketException e) {			
@@ -27,10 +46,18 @@ public class Network {
 	
 	public void sendMessage(Member target, String message) {
         //System.out.println(message + " of type String is being sent out.");
+        String signedMessage = new String();
+        try {
+        	signedMessage = CryptoUtil.getSignature(message, privKey);
+        } catch (Exception ex) {
+        	ex.printStackTrace();
+        }
+
         ByteArrayOutputStream bStream = new ByteArrayOutputStream();
 		try {
 			ObjectOutput oo = new ObjectOutputStream(bStream); 
-			oo.writeObject(message);
+			oo.writeObject(message + ","+ signedMessage);
+			System.out.println(message + ","+ signedMessage + " of type String is being sent out.");
 			oo.close();
 		} catch (IOException e) {
 			Gossip.logger.log("Could not send " + message + " to [" + target.getSocketAddress() + "] because: " + e.getMessage());
