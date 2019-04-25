@@ -157,7 +157,7 @@ public static void main(String[] args) {
                     } else {
                         //write code to get coin genuinely tossed
                         int b = Math.round((float) Math.random());
-                        firstNode.changeSendMsg(Integer.toString(b) + ", " + nodeStep);
+                        firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
                     }
                     break;
             }
