@@ -122,7 +122,7 @@ public class Node {
     private GossipUpdater onFailedMember = null;
     private GossipUpdater onRemovedMember = null;
     private GossipUpdater onRevivedMember = null;
-    private Boolean isAdversary = false;
+    public Boolean isAdversary = false;
 
     /**
      * initialize gossip protocol as the first node in the system.
