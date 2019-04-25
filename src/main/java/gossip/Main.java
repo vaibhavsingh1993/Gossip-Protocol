@@ -107,10 +107,10 @@ public static void main(String[] args) {
                 numOfOnes = firstNode.numOnes(votes);
 		        System.out.println("numOfZeros: " + numOfZeros);
 		        System.out.println("numOfOnes: " + numOfOnes);
-                if (numOfZeros >= 2 * votes.length / 3) {
+                if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                     firstNode.changeSendMsg("0*," + firstNode.stepNumber + 1);
-                    System.out.println("0*," + firstNode.stepNumber +  "will be the next sending message from " + firstNode.self.getUniqueId());
-                } else if (numOfOnes >= 2 * votes.length / 3) {
+                    System.out.println("0*," + firstNode.stepNumber +  " will be the next sending message from " + firstNode.self.getUniqueId());
+                } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
                     firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1) );
                 } else {
                     firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
@@ -123,9 +123,9 @@ public static void main(String[] args) {
                 numOfOnes = firstNode.numOnes(votes);
                 System.out.println("numOfZeros: " + numOfZeros);
                 System.out.println("numOfOnes: " + numOfOnes);
-                if (numOfZeros >= 2 * votes.length / 3) {
+                if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                     firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
-                } else if (numOfOnes >= 2 * votes.length / 3) {
+                } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
                     firstNode.changeSendMsg("1*," + (firstNode.stepNumber + 1));
                     System.out.println("1*,1 will be the next sending message from " + firstNode.self.getUniqueId());
                 } else {
@@ -139,9 +139,9 @@ public static void main(String[] args) {
 		        System.out.println("inside case 2");
                 System.out.println("numOfZeros is " + numOfZeros);
                 System.out.println("numOfOnes is " + numOfOnes);
-                if (numOfZeros >= 2 * votes.length / 3) {
+                if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                     firstNode.changeSendMsg("0," + (firstNode.stepNumber + 1));
-                } else if (numOfOnes >= 2 * votes.length / 3) {
+                } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
                     firstNode.changeSendMsg("1," + (firstNode.stepNumber + 1));
                 } else {
                     //write code to get coin genuinely tossed
