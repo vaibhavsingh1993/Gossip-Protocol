@@ -53,15 +53,16 @@ public class Node {
             String[] strs = rcvMsg.split(",");
             String bit = strs[0];
             String step = strs[1];
-            if(Integer.valueOf(step)!=currStep) continue;
+            int caseNum = (Integer.valueOf(step))%3;
+            if(caseNum !=currStep) continue;
             System.out.println("Received bit: " + bit + ", Received step: " + step);
             //String bit = "0";
             //String step = "0";
-            if (Integer.valueOf(step) == currStep && bit.length() == 1){
+            if (caseNum == currStep && bit.length() == 1){
                 votes[i%votes.length] = (long) Integer.valueOf(bit);
                 i++;
             } // todo: what should we do if we recevie a bit from wrong step?
-            if (Integer.valueOf(step) == currStep && bit.length() == 2){
+            if (caseNum == currStep && bit.length() == 2){
                 votes[i%votes.length] = (long) Integer.valueOf(bit.charAt(0));
                 fixed_votes.add(Integer.valueOf(bit.charAt(0)));
                 finished_node++;
