@@ -96,7 +96,7 @@ public static void main(String[] args) {
     while(true){
         int step = firstNode.stepNumber % 3;
         currTime = System.currentTimeMillis();
-	System.out.println("Inside BA gossip3: " + currTime);
+	//System.out.println("Inside BA gossip3: " + currTime);
         votes = firstNode.getMessages(currTime, step);
         //firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
@@ -114,11 +114,11 @@ public static void main(String[] args) {
             switch (step) {
                 case 0:
                     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-                    System.out.println("Inside case 0");
+                    //System.out.println("Inside case 0");
                     numOfZeros = firstNode.numZeros(votes);
                     numOfOnes = firstNode.numOnes(votes);
-                    System.out.println("numOfZeros: " + numOfZeros);
-                    System.out.println("numOfOnes: " + numOfOnes);
+                    //System.out.println("numOfZeros: " + numOfZeros);
+                    //System.out.println("numOfOnes: " + numOfOnes);
                     if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("0*," + nodeStep);
                         System.out.println("0*," + nodeStep + " will be the next sending message from " + firstNode.self.getUniqueId());
@@ -130,11 +130,11 @@ public static void main(String[] args) {
                     break;
                 case 1:
                     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
-                    System.out.println("Inside case 1");
+                    //System.out.println("Inside case 1");
                     numOfZeros = firstNode.numZeros(votes);
                     numOfOnes = firstNode.numOnes(votes);
-                    System.out.println("numOfZeros: " + numOfZeros);
-                    System.out.println("numOfOnes: " + numOfOnes);
+                    //System.out.println("numOfZeros: " + numOfZeros);
+                    //System.out.println("numOfOnes: " + numOfOnes);
                     if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("0," + nodeStep);
                     } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
@@ -148,9 +148,9 @@ public static void main(String[] args) {
                     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
                     numOfZeros = firstNode.numZeros(votes);
                     numOfOnes = firstNode.numOnes(votes);
-                    System.out.println("inside case 2");
-                    System.out.println("numOfZeros is " + numOfZeros);
-                    System.out.println("numOfOnes is " + numOfOnes);
+                    //System.out.println("inside case 2");
+                    //System.out.println("numOfZeros is " + numOfZeros);
+                    //System.out.println("numOfOnes is " + numOfOnes);
                     if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("0," + nodeStep);
                     } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
@@ -170,7 +170,7 @@ public static void main(String[] args) {
         firstNode.updateStepNumber();
         for (String key : memberList.keySet()) {
             firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
-            System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+            //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
         }
 	    // todo: every node is going to stop after step 0 cuz stepnumber always equals to penultimateStep + 1?!
         if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){

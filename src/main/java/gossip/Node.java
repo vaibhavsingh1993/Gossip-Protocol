@@ -82,17 +82,17 @@ public class Node {
             //put messages into arrays
             j++;
 	    }
-	    System.out.println("Inside getMessage, votes values are: ");
-	    for(int l=0; l<votes.length; l++) {
+	    //System.out.println("Inside getMessage, votes values are: ");
+	    /*for(int l=0; l<votes.length; l++) {
             System.out.println(votes[l]);
-        }
+        }*/
         return votes;
     }
 
 	public void printVotes(long list[]){
-		System.out.println("from printVotes");
+		System.out.println("All bits received: ");
 		for (int i = 0; i < list.length; i++){
-			System.out.println(list[i]);
+			System.out.print(list[i] + "   ");
 		}
 	}
 	public int numZeros(long[] list){
