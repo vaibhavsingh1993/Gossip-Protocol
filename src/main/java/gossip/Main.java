@@ -89,7 +89,7 @@ public static void main(String[] args) {
             new InetSocketAddress("35.245.215.147", 6991), new InetSocketAddress("35.245.197.58", 6991),
             new InetSocketAddress("35.236.229.113", 6991), new InetSocketAddress("23.251.148.243", 6991),
             new InetSocketAddress("35.232.26.149", 6991), new InetSocketAddress("35.238.119.252", 6991),
-            new InetSocketAddress("35.232.189.112", 699)
+            new InetSocketAddress("35.232.189.112", 6991)
 }; // Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
