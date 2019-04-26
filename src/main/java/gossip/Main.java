@@ -125,11 +125,7 @@ public static void main(String[] args) {
             e.printStackTrace();
         }
         String nodeStep = String.valueOf(firstNode.stepNumber+1);
-        if (firstNode.isAdversary) {
-            //System.out.println("I am malicious");
-            int b = Math.round((float) Math.random());
-            firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
-        } else {
+        if (!firstNode.isAdversary) {
             switch (step) {
                 case 0:
                     //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
@@ -186,11 +182,21 @@ public static void main(String[] args) {
             penultimateStep = firstNode.stepNumber;
             //System.out.println("Message being sent out contains '*' from " + firstNode.self.getPort());
         }
-        firstNode.updateStepNumber();
-        for (String key : memberList.keySet()) {
-            firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
-            //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+        if (firstNode.isAdversary) {
+            //System.out.println("I am malicious");
+            int b = Math.round((float) Math.random());
+            firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
+            for (String key : memberList.keySet()) {
+                firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+                //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+            }
+        } else {
+            for (String key : memberList.keySet()) {
+                firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+                //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+            }
         }
+        firstNode.updateStepNumber();
         if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){
             break;
         }
