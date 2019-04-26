@@ -106,10 +106,19 @@ public static void main(String[] args) {
 
 
 
-
-    for (String key: memberList.keySet()) {
-        firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
-	    System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+    if (firstNode.isAdversary) {
+        //System.out.println("I am malicious");
+        for (String key : memberList.keySet()) {
+            int b = Math.round((float) Math.random());
+            firstNode.changeSendMsg(Integer.toString(b) + ",0");
+            firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+            //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+        }
+    } else {
+        for (String key : memberList.keySet()) {
+            firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
+            //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
+        }
     }
     long currTime;
     long numOfZeros;
@@ -188,9 +197,9 @@ public static void main(String[] args) {
         }
         if (firstNode.isAdversary) {
             //System.out.println("I am malicious");
-            int b = Math.round((float) Math.random());
-            firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
             for (String key : memberList.keySet()) {
+                int b = Math.round((float) Math.random());
+                firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
                 firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
                 //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
             }
