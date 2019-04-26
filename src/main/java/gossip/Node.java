@@ -9,41 +9,32 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 public class Node {
-
+    public final InetSocketAddress listeningAddress;
+    public Network network;
+    // instantiate a default logger that does not log anything
+    static Logger logger = (message) -> {};
+    public Member self = null;
+    private ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
+    private boolean stopped = false;
+    public String sendMsg;
+    private String rcvdMsg;
+    // configurable values
+    private Config config = null;
+    private GossipUpdater onNewMember = null;
+    private GossipUpdater onFailedMember = null;
+    private GossipUpdater onRemovedMember = null;
+    private GossipUpdater onRevivedMember = null;
+    public Boolean isAdversary = false;
     private PrivateKey privKey;
-
-    private static PublicKey[] publicKey = new PublicKey[4];
-
+    private static PublicKey[] publicKey = new PublicKey[9];
 	int stepNumber = -1;
-	String str = "";
-    long[][] roundMessages = {{0,10},{1,5},{0,3},{0,10},{1,1}};
-    long[] votes = {0, 0, 0, 0};
-    int currentStep;
-    long currTime= System.currentTimeMillis();
-    long endTime = currTime + 5000;
+	// todo: change this DS either size or type (arraylist)
+    long[] votes = {0, 0, 0, 0, 0, 0, 0, 0, 0};
     ArrayList<Integer> fixed_votes = new ArrayList<>();
-    int finished_node = 0;
 
 	public void updateStepNumber() {
 		this.stepNumber++;
 	}
-
-	public void sync(ConcurrentHashMap<String, Member> memberList) {
-	    System.out.println("Sync with " + memberList.size() + " members (including itself)");
-        for (String key: memberList.keySet()) {
-            network.sendMessage(memberList.get(key), "Ready");
-            System.out.println("Message 'Ready' is sent out from '" + self.getUniqueId() + "'");
-        }
-        int ready = 0;
-        while (ready < memberList.size()-finished_node) {
-            Object rcvdObj = network.receiveMessage();
-            String rcvMsg = rcvdObj.toString();
-            if(rcvMsg.equals("Ready")) {
-                ready++;
-            }
-            System.out.println("Message '" + rcvMsg + "' is received");
-        }
-    }
 
 	public long[] getMessages(long currTime, int currStep) {
 	    int i = 0;
@@ -54,7 +45,8 @@ public class Node {
             i++;
             j++;
         }
-	    while(j < 4) {
+        // todo: change the terminate condition for this while
+	    while(j < 9) {
             //System.out.println("inside getMEssages");
             Object rcvdObj = network.receiveMessage();
             String rcvMsg = rcvdObj.toString();
@@ -71,7 +63,7 @@ public class Node {
             if (caseNum == currStep && bit.length() == 1 && signatureVerified){
                 votes[i%votes.length] = (long) Integer.valueOf(bit);
                 i++;
-            } // todo: what should we do if we recevie a bit from wrong step?
+            }
             if (caseNum == currStep && bit.length() == 2 && signatureVerified){
                 votes[i%votes.length] = (long) Integer.valueOf(Character.toString(bit.charAt(0)));
                 fixed_votes.add(Integer.valueOf(Character.toString(bit.charAt(0))));
@@ -107,36 +99,18 @@ public class Node {
 	
 
 	public int numOnes(long[] list){
-                int count = 0;
-                for (int i =0 ; i < list.length; i++){
-                        if(list[i] == 1){
-                                count++;
-                        }
+	    int count = 0;
+        for (int i =0 ; i < list.length; i++){
+                if(list[i] == 1){
+                        count++;
                 }
-                return count;
         }
+        return count;
+	}
 
 	//create signature for message
 	
 	//send vote for the current step
-
-    public final InetSocketAddress listeningAddress;
-    public Network network;
-    // instantiate a default logger that does not log anything
-    static Logger logger = (message) -> {};
-    public Member self = null;
-    private ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
-    private boolean stopped = false;
-    public String sendMsg;
-    private String rcvdMsg;
-    // configurable values
-    private Config config = null;
-    private GossipUpdater onNewMember = null;
-    private GossipUpdater onFailedMember = null;
-    private GossipUpdater onRemovedMember = null;
-    private GossipUpdater onRevivedMember = null;
-    public Boolean isAdversary = false;
-
     /**
      * initialize gossip protocol as the first node in the system.
      * */
