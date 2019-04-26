@@ -42,7 +42,7 @@ public static void main(String[] args) {
     String seed;
     Boolean isNodeAnAdversary;
 
-    // TODO: refactor this crap.
+    // TODO: change this if else statements for more nodes
     if (vmname.equals("gossip1")) {
     	seed = seeds[0];
     	isNodeAnAdversary = Boolean.parseBoolean(adversaries[0]);
@@ -52,9 +52,24 @@ public static void main(String[] args) {
     } else if (vmname.equals("gossip3")) {
     	seed = seeds[2];
     	isNodeAnAdversary = Boolean.parseBoolean(adversaries[2]);
-    } else if (vmname.equals("gossip5")) {
+    } else if (vmname.equals("gossip4")) {
     	seed = seeds[3];
     	isNodeAnAdversary = Boolean.parseBoolean(adversaries[3]);
+    } else if (vmname.equals("gossip5")) {
+        seed = seeds[4];
+        isNodeAnAdversary = Boolean.parseBoolean(adversaries[4]);
+    } else if (vmname.equals("gossip6")) {
+        seed = seeds[5];
+        isNodeAnAdversary = Boolean.parseBoolean(adversaries[5]);
+    } else if (vmname.equals("gossip7")) {
+        seed = seeds[6];
+        isNodeAnAdversary = Boolean.parseBoolean(adversaries[6]);
+    } else if (vmname.equals("gossip8")) {
+        seed = seeds[7];
+        isNodeAnAdversary = Boolean.parseBoolean(adversaries[7]);
+    } else if (vmname.equals("gossip9")) {
+        seed = seeds[8];
+        isNodeAnAdversary = Boolean.parseBoolean(adversaries[8]);
     } else {
     	 seed = "0";
     	 isNodeAnAdversary = false;
@@ -65,8 +80,12 @@ public static void main(String[] args) {
         System.out.println();
     });*/
     //firstNode.start();
+    // todo: change this list of IPs
     InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 6991),
-            new InetSocketAddress("35.230.171.17", 6991), new InetSocketAddress("35.245.51.164", 6991), new InetSocketAddress("35.245.197.58", 6991)
+            new InetSocketAddress("35.245.51.164", 6991), new InetSocketAddress("35.230.171.17", 6991),
+            new InetSocketAddress("35.245.215.147", 6991), new InetSocketAddress("35.245.197.58", 6991),
+            new InetSocketAddress("35.236.229.113", 6991), new InetSocketAddress("23.251.148.243", 6991),
+            new InetSocketAddress("35.232.26.149", 6991), new InetSocketAddress("35.238.119.252", 6991)
 }; // Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
@@ -76,7 +95,7 @@ public static void main(String[] args) {
 
 
         try {
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(15);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -101,7 +120,7 @@ public static void main(String[] args) {
         //firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
         try {
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(15);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -172,7 +191,6 @@ public static void main(String[] args) {
             firstNode.network.sendMessage(memberList.get(key), firstNode.sendMsg);
             //System.out.println("Message '" + firstNode.sendMsg + "' is sent out from '" + firstNode.self.getUniqueId() + "'");
         }
-	    // todo: every node is going to stop after step 0 cuz stepnumber always equals to penultimateStep + 1?!
         if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){
             break;
         }
