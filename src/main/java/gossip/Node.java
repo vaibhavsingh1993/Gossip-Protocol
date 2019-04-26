@@ -29,7 +29,7 @@ public class Node {
     private static PublicKey[] publicKey = new PublicKey[9];
 	int stepNumber = -1;
 	// todo: change this DS either size or type (arraylist)
-    long[] votes = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+    long[] votes = {0, 0, 0, 0, 0, 0, 0, 0, 0,0};
     ArrayList<Integer> fixed_votes = new ArrayList<>();
 
 	public void updateStepNumber() {
@@ -46,7 +46,7 @@ public class Node {
             j++;
         }
         // todo: change the terminate condition for this while
-	    while(j < 9) {
+	    while(j < 10) {
             //System.out.println("inside getMEssages");
             Object rcvdObj = network.receiveMessage();
             String rcvMsg = rcvdObj.toString();
