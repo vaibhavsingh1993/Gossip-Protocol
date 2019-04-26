@@ -29,7 +29,7 @@ public class Node {
     private static PublicKey[] publicKey = new PublicKey[9];
 	int stepNumber = -1;
 	// todo: change this DS either size or type (arraylist)
-    long[] votes = {0, 0, 0, 0, 0, 0, 0, 0, 0,0};
+    long[] votes = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     ArrayList<Integer> fixed_votes = new ArrayList<>();
 
 	public void updateStepNumber() {
