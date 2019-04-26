@@ -70,6 +70,9 @@ public static void main(String[] args) {
     } else if (vmname.equals("gossip9")) {
         seed = seeds[8];
         isNodeAnAdversary = Boolean.parseBoolean(adversaries[8]);
+    } else if (vmname.equals("gossip10")) {
+        seed = seeds[9];
+        isNodeAnAdversary = Boolean.parseBoolean(adversaries[9]);
     } else {
     	 seed = "0";
     	 isNodeAnAdversary = false;
@@ -85,7 +88,8 @@ public static void main(String[] args) {
             new InetSocketAddress("35.245.51.164", 6991), new InetSocketAddress("35.230.171.17", 6991),
             new InetSocketAddress("35.245.215.147", 6991), new InetSocketAddress("35.245.197.58", 6991),
             new InetSocketAddress("35.236.229.113", 6991), new InetSocketAddress("23.251.148.243", 6991),
-            new InetSocketAddress("35.232.26.149", 6991), new InetSocketAddress("35.238.119.252", 6991)
+            new InetSocketAddress("35.232.26.149", 6991), new InetSocketAddress("35.238.119.252", 6991),
+            new InetSocketAddress("35.232.189.112", 699)
 }; // Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
