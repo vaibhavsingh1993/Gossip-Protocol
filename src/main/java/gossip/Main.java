@@ -85,8 +85,7 @@ public static void main(String[] args) {
     });*/
     //firstNode.start();
     // todo: change this list of IPs
-    InetSocketAddress[] targetAddress;
-    = {new InetSocketAddress(nodelist[0], 6991),
+    InetSocketAddress[] targetAddress = {new InetSocketAddress(nodelist[0], 6991),
             new InetSocketAddress(nodelist[1], 6991), new InetSocketAddress(nodelist[2], 6991),
             new InetSocketAddress(nodelist[3], 6991), new InetSocketAddress(nodelist[4], 6991),
             new InetSocketAddress(nodelist[5], 6991), new InetSocketAddress(nodelist[6], 6991),
