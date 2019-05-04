@@ -51,6 +51,9 @@ seed=1,0,0,0,1,1,1,0,0,1
 adversaries=false,false,false,false,false,false,true,false,false,false # **Mark gossip7 as malicious**
 nodelist=35.236.229.113,35.245.51.164,35.232.59.140,35.245.197.58,35.230.171.17,35.236.248.199,35.245.215.147,35.222.93.8,35.226.235.222,35.192.191.106
 ```
+## Task distribution
+TODO: Add it, probably as a wikipage?
+</details>
 
 ## Screencast link
 https://youtu.be/rtTEz17JtWU
