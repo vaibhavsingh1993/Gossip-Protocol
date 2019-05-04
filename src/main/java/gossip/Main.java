@@ -39,10 +39,11 @@ public static void main(String[] args) {
     String vmname = prop.getProperty("vmname");
     String[] seeds = prop.getProperty("seed").split(",");
     String[] adversaries = prop.getProperty("adversaries").split(",");
+    String[] nodelist = prop.getProperty("nodelist").split(",");
     String seed;
+    String node;
     Boolean isNodeAnAdversary;
 
-    // TODO: change this if else statements for more nodes
     if (vmname.equals("gossip1")) {
     	seed = seeds[0];
     	isNodeAnAdversary = Boolean.parseBoolean(adversaries[0]);
@@ -84,12 +85,13 @@ public static void main(String[] args) {
     });*/
     //firstNode.start();
     // todo: change this list of IPs
-    InetSocketAddress[] targetAddress = {new InetSocketAddress("35.236.248.199", 6991),
-            new InetSocketAddress("35.245.51.164", 6991), new InetSocketAddress("35.230.171.17", 6991),
-            new InetSocketAddress("35.245.215.147", 6991), new InetSocketAddress("35.245.197.58", 6991),
-            new InetSocketAddress("35.236.229.113", 6991), new InetSocketAddress("23.251.148.243", 6991),
-            new InetSocketAddress("35.232.26.149", 6991), new InetSocketAddress("35.238.119.252", 6991),
-            new InetSocketAddress("35.232.189.112", 6991)
+    InetSocketAddress[] targetAddress;
+    = {new InetSocketAddress(nodelist[0], 6991),
+            new InetSocketAddress(nodelist[1], 6991), new InetSocketAddress(nodelist[2], 6991),
+            new InetSocketAddress(nodelist[3], 6991), new InetSocketAddress(nodelist[4], 6991),
+            new InetSocketAddress(nodelist[5], 6991), new InetSocketAddress(nodelist[6], 6991),
+            new InetSocketAddress(nodelist[7], 6991), new InetSocketAddress(nodelist[8], 6991),
+            new InetSocketAddress(nodelist[9], 6991)
 }; // Hardcode the receivers' IPs
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
