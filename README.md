@@ -1,61 +1,57 @@
-# Gossip-Protocol
-An implementation of the Gossip Protocol for failure detection and cluster membership in a distributed system.
+<p align="center">
+  <img width="200" height="200" src="https://upload.wikimedia.org/wikipedia/commons/e/e1/North_Carolina_State_University_Athletic_logo.svg">
+</p>
 
-## Gossip API
+# Gossip Protocol
+CSC724 Spring 2019
 
-Methods:
-```Java
-void start()
-void stop()
-ArrayList<InetSocketAddress> getAliveMembers()
-ArrayList<InetSocketAddress> getFailedMembers()
-ArrayList<InetSocketAddress> getAllMembers()
+## Authors
+[Vaibhav Singh](https://github.ncsu.edu/vsingh7)(vsingh7@ncsu.edu) <br>
+[Varun Madathil](https://github.ncsu.edu/vrmadath)(vrmadath@ncsu.edu) <br>
+[Wayne Chen](https://github.ncsu.edu/cchen31)(cchen31@ncsu.edu) <br>
+
+# Prerequisites
+
+1. Install Git
+2. Clone the repo
 ```
-Event Handlers:
-```Java
-void setOnNewMemberHandler(GossipUpdater onNewMember)
-void setOnFailedMemberHandler(GossipUpdater onFailedMember)
-void setOnRevivedMemberHandler(GossipUpdater onRevivedMember)
-void setOnRemoveMemberHandler(GossipUpdater onRemovedMember)
-````
-Class Methods
-```Java
-static void setLogger(Logger logger)
+git clone https://github.com/vaibhavsingh1993/Gossip-Protocol.git
 ```
+3. Install JDK (8+)
+4. Install Gradle
 
+It is highly recommended to run the code within VM's, preferably on the same Availability Zone (to reduce latency) with firewall rules allowing port **6991** to be able to send and receive UDP traffic. 
 
-# Example
-```Java
-public static void main(String[] args) {
-    Config config = new Config( 
-            Duration.ofSeconds(2), // time between receiving the last heartbeat and marking a member as failing
-            Duration.ofSeconds(2), // time between marking a member as failed and removing it from the list
-            Duration.ofMillis(500), // how often the member list is broadcast to other members
-            Duration.ofMillis(200), // how often the Gossip protocol checks if any members have failed
-            3                       // the number of nodes to send the membership list to when broadcasting.
-        );
-    
-    // Set how the error messages will be handled.
-    Gossip.setLogger((message) -> {
-        System.out.println("Gossip Error: " + message);
-    });
-  
-    Gossip firstNode = new Gossip(new InetSocketAddress("127.0.0.1", 8080), config);
-  
-    firstNode.setOnNewMemberHandler( (address) -> {
-        System.out.println(address + " connected to first node");
-    });
-  
-    firstNode.start();
-  
-  
-    // Create 20 nodes that connect in a chair to each other. Despite only 1 node connecting to the
-    // first node, the first node will eventually have a membership list with all the nodes in it.
-    for(int i = 1; i <= 20; i++) {
-        Gossip g = new Gossip( new InetSocketAddress("127.0.0.1", 8080 + i), 
-                               new InetSocketAddress("127.0.0.1", 8080 + i - 1), config);
-        g.start();
-    }
-}
+*Note: There are autoconfigure scripts named setup.sh and setup-ubuntu.sh which can be used to setup everything, but only if one is using CentOS / RHEL (for setup.sh) or Ubuntu (for setup-ubuntu.sh)*
 
 ```
+chmod +x setup.sh <br>
+
+./setup.sh <br>
+
+(or) <br>
+
+chmod +x setup-ubuntu.sh <br>
+
+./setup-ubuntu.sh <br>
+
+```
+
+## ScreenCast link
+https://youtu.be/rtTEz17JtWU
+</details>
+
+### Setup used for Screencast
+[PreSonus AudioBox USB 2-channel interface](https://www.amazon.com/PreSonus-AudioBox-USB-Audio-Interface/dp/B00154KSA2) <br>
+[Shure SM58 microphone](https://www.shure.com/en-US/products/microphones/sm58) <br>
+[Open Broadcasting Software OBS](https://obsproject.com/) <br>
+[Avidemux](http://avidemux.sourceforge.net/) <br>
+
+
+## Wiki and Repository Links
+
+## Project Wiki
+https://github.com/vaibhavsingh1993/Gossip-Protocol/wiki
+
+## Forked Repositories
+https://github.com/Tyler-R/Gossip-Protocol
