@@ -16,7 +16,26 @@ https://youtu.be/rtTEz17JtWU
 
 # Prerequisites
 
-**0.** (Optional) To auto create VMs on GCP:
+** 0.** Clone the repo
+```
+git clone https://github.com/vaibhavsingh1993/Gossip-Protocol/
+```
+
+*Note: There are autoconfigure scripts named setup.sh and setup-ubuntu.sh which can be used to setup the environment automatically, but only if one is using CentOS / RHEL (for setup.sh) or Ubuntu (for setup-ubuntu.sh). If you run one of the scripts you need not run the configuration steps below.*
+
+```
+chmod +x setup.sh
+
+./setup.sh
+
+(or)
+
+chmod +x setup-ubuntu.sh
+
+./setup-ubuntu.sh
+
+```
+**1.** (Optional) To auto create VMs on GCP:
 
   a.) Follow the steps at https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount to create a service account and download the credentials json file.
   
@@ -41,39 +60,20 @@ ansible-playbook gcp_playbook.yml
 
 ```
 
-**1.** Install Git
+**2.** Install JDK (8+)
 
-**2.** Clone the repo
-```
-git clone https://github.com/vaibhavsingh1993/Gossip-Protocol.git
-```
-**3.** Install JDK (8+)
-
-**4.** Install Gradle
+**3.** Install Gradle
 
 It is highly recommended to run the code within VM's, preferably on the same Availability Zone (to reduce latency) with firewall rules allowing port **6991** to be able to send and receive UDP traffic. 
 
-*Note: There are autoconfigure scripts named setup.sh and setup-ubuntu.sh which can be used to setup everything, but only if one is using CentOS / RHEL (for setup.sh) or Ubuntu (for setup-ubuntu.sh)*
 
-```
-chmod +x setup.sh
 
-./setup.sh
-
-(or)
-
-chmod +x setup-ubuntu.sh
-
-./setup-ubuntu.sh
-
-```
-
-**5.** Once all dependencies are set up, run gradle
+**4.** Once all dependencies are set up, run gradle
 ```
 gradle run
 ```
 
-**6.** (Optional) to change the behaviour of the nodes, you can edit the *src/config.properties* file to add or remove nodes, or to mark some of them as malicious or honest.
+**5.** (Optional) to change the behaviour of the nodes, you can edit the *src/config.properties* file to add or remove nodes, or to mark some of them as malicious or honest.
 
 For example, to mark node 7 as malicious, set up the following configuration in all nodes:
 ```
@@ -83,7 +83,7 @@ adversaries=false,false,false,false,false,false,true,false,false,false # **Mark 
 nodelist=35.236.229.113,35.245.51.164,35.232.59.140,35.245.197.58,35.230.171.17,35.236.248.199,35.245.215.147,35.222.93.8,35.226.235.222,35.192.191.106
 ```
 
-**7.** (Optional) timing the Zero Knowledge Signatures:
+**6.** (Optional) timing the Zero Knowledge Signatures:
 
 Go to *zk_tests* and run the following commands:
 
