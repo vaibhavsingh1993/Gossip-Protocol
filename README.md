@@ -99,11 +99,13 @@ Each step takes from a few seconds to the order of 10's of minutes to complete.
 ## Link to Paper
 TODO: add it
 ## Task distribution
-ZK evaluation, Proof writing, BA protocol, Automation and Deployment setup, screencast, fixing synchronization issues, anything else?
 
-Varun Madathil (vrmadath) -
-Vaibhav Singh (vsingh7) - 
-Wayne Chen (cchen31) - 
+
+Varun Madathil (vrmadath) - Implementation of BA protocol, Writing Proof of correctness, SNARK evaluation
+
+Vaibhav Singh (vsingh7) - Automation and Deployment Setup, ZK Evaluation, screencast, SNARK evaluation
+
+Wayne Chen (cchen31) - fixing synchronization issues, implementation of send and receive functionality
 
 </details>
 
