@@ -6,7 +6,16 @@ import java.net.UnknownHostException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-
+/**
+ * Member class emulates a member in the membership list for all nodes.
+ *
+ * @author  TTyler
+ * @author  Vaibhav Singh
+ * @author  Varun Madathil
+ * @author  Wayne Chen
+ * @version 1.1
+ * @since   2019-02-26
+ */
 public class Member implements Serializable {
 	private InetSocketAddress address = null;
 	

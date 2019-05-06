@@ -185,7 +185,6 @@ public static void main(String[] args) {
             //System.out.println("Message being sent out contains '*' from " + firstNode.self.getPort());
         }
         if (firstNode.isAdversary) {
-            //System.out.println("I am malicious");
             for (String key : memberList.keySet()) {
                 int b = Math.round((float) Math.random());
                 firstNode.changeSendMsg(Integer.toString(b) + "," + nodeStep);
@@ -199,7 +198,7 @@ public static void main(String[] args) {
             }
         }
         firstNode.updateStepNumber();
-        if(firstNode.stepNumber == (penultimateStep + 1) /*&& penultimateStep != 0*/){
+        if(firstNode.stepNumber == (penultimateStep + 1)){
             break;
         }
     }

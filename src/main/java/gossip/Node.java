@@ -8,9 +8,22 @@ import java.lang.Math;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+/**
+ * Node class emulates a gossip node.
+ *
+ * @author  TTyler
+ * @author  Vaibhav Singh
+ * @author  Varun Madathil
+ * @author  Wayne Chen
+ * @version 1.1
+ * @since   2019-02-26
+ */
 public class Node {
+    private int MAX_NODES = 10;
+
     public final InetSocketAddress listeningAddress;
     public Network network;
+    
     static Logger logger = (message) -> {};
     public Member self = null;
     private ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
@@ -41,7 +54,7 @@ public class Node {
             i++;
             j++;
         }
-	    while(j < 10) {
+	    while(j < MAX_NODES) {
             Object rcvdObj = network.receiveMessage();
             String rcvMsg = rcvdObj.toString();
             String[] strs = rcvMsg.split(",");
@@ -93,21 +106,22 @@ public class Node {
         return count;
 	}
 
-	//create signature for message
 	
-	//send vote for the current step
     /**
-     * initialize gossip protocol as the first node in the system.
+     * Node constructor - initialize gossip protocol as the first node in the system.
+     * create signature for message
+     * send votes for the current step
+     *
      * */
     public Node(InetSocketAddress listeningAddress, Config config, String message, int steps) {
         try {
             // TODO: Would need to map the public keys to a list of all public keys instead of 
             // a single public key
             privKey = CryptoUtil.getPrivate("/home/vagrant/Gossip-Protocol/src/key.der");
-            publicKey[0] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
-            publicKey[1] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
-            publicKey[2] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
-            publicKey[3] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");  
+            publicKey[0] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public1.der");
+            publicKey[1] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public2.der");
+            publicKey[2] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public3.der");
+            publicKey[3] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public4.der");  
         } catch (Exception e) {
             //
         }
@@ -129,7 +143,7 @@ public class Node {
 
 
     /**
-     * Connect to another node in the gossip protocol and begin fault tolerance
+     * Node constructor - Connect to another node in the gossip protocol and begin fault tolerance
      * monitoring.
      * */
     public Node(InetSocketAddress listeningAddress,

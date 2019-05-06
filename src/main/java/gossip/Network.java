@@ -15,6 +15,17 @@ import java.security.PublicKey;
 import java.security.NoSuchAlgorithmException;
 
 
+/**
+ * Network emulates the low level network connection workflow.
+ * Packets are sent and received as UDP packets using socket programming.
+ *
+ * @author  TTyler
+ * @author  Vaibhav Singh
+ * @author  Varun Madathil
+ * @author  Wayne Chen
+ * @version 1.1
+ * @since   2019-02-26
+ */
 public class Network {
 	
 	private DatagramSocket socket;
@@ -31,10 +42,10 @@ public class Network {
 			// TODO: Would need to map the public keys to a list of all public keys instead of 
             // a single public key
 		    privKey = CryptoUtil.getPrivate("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/key.der");
-			publicKey[0] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
-			publicKey[1] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
-			publicKey[2] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
-			publicKey[3] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");			
+			publicKey[0] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public1.der");
+			publicKey[1] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public2.der");
+			publicKey[2] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public3.der");
+			publicKey[3] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public4.der");			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
