@@ -10,6 +10,10 @@ CSC724 Spring 2019
 [Varun Madathil](https://github.ncsu.edu/vrmadath)(vrmadath@ncsu.edu) <br>
 [Wayne Chen](https://github.ncsu.edu/cchen31)(cchen31@ncsu.edu) <br>
 
+## Screencast link
+https://youtu.be/rtTEz17JtWU
+</details>
+
 # Prerequisites
 
 **0.** (Optional) To auto create VMs on GCP:
@@ -95,11 +99,10 @@ Each step takes from a few seconds to the order of 10's of minutes to complete.
 TODO: add it
 
 ## Task distribution
-TODO: Add it, probably as a wikipage?
-</details>
+Varun Madathil (vrmadath) -
+Vaibhav Singh (vsingh7) - 
+Wayne Chen (cchen31) - 
 
-## Screencast link
-https://youtu.be/rtTEz17JtWU
 </details>
 
 ### Setup used for Screencast
