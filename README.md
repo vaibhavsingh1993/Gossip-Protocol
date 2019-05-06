@@ -98,14 +98,19 @@ Each step takes from a few seconds to the order of 10's of minutes to complete.
 
 ## Link to Paper
 TODO: add it
-
-TODO: Add a master diff for all changes made by us.
 ## Task distribution
+ZK evaluation, Proof writing, BA protocol, Automation and Deployment setup, screencast, fixing synchronization issues, anything else?
+
 Varun Madathil (vrmadath) -
 Vaibhav Singh (vsingh7) - 
 Wayne Chen (cchen31) - 
 
 </details>
+
+## Code diff
+https://github.com/vaibhavsingh1993/Gossip-Protocol/blob/master/final_diff.diff
+(3600 LOC)
+
 
 ### Setup used for Screencast
 [PreSonus AudioBox USB 2-channel interface](https://www.amazon.com/PreSonus-AudioBox-USB-Audio-Interface/dp/B00154KSA2) <br>
