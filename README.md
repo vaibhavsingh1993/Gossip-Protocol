@@ -97,7 +97,7 @@ time snarkjs proof
 Each step takes from a few seconds to the order of 10's of minutes to complete.
 
 ## Link to Paper
-TODO: add it
+https://drive.google.com/file/d/1y6LwtaaGZvkaUjCqg6BPhULgDocnKiSZ/view?usp=sharing
 ## Task distribution
 
 
