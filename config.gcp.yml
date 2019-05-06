@@ -1,0 +1,6 @@
+plugin: gcp_compute
+projects:
+  - graphite-playground
+filters:
+auth_kind: serviceaccount
+service_account_file: tonal-nova-237518-29dfeae94c52.json

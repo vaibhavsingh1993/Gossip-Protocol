@@ -28,11 +28,11 @@ public class Network {
 	
 	public Network(int portToListenOn) {
 		try {
-		    privKey = CryptoUtil.getPrivate("/home/vagrant/Gossip-Protocol/src/key.der");
-			publicKey[0] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
-			publicKey[1] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
-			publicKey[2] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
-			publicKey[3] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");			
+		    privKey = CryptoUtil.getPrivate("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/key.der");
+			publicKey[0] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
+			publicKey[1] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
+			publicKey[2] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
+			publicKey[3] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -106,6 +106,7 @@ public class Network {
 				Gossip.logger.log("Error calling readObject() on an ObjectInputStream object: " + e.getMessage());
 			}
 	    System.out.println("Message received: " + rcvdObj.toString().substring(0,rcvdObj.toString().lastIndexOf(",")));
+            System.out.println(rcvdObj.toString());
             iStream.close();
             return rcvdObj;
             /*Member message = null;
