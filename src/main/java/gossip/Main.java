@@ -79,19 +79,14 @@ public static void main(String[] args) {
     	 isNodeAnAdversary = false;
     }
     Node firstNode = new Node(new InetSocketAddress("localhost", 6991), config, seed + ",0", 0, isNodeAnAdversary);
-    /*firstNode.setOnNewMemberHandler( (address) -> {
-        System.out.println(address + " connected to node 0 (first node)");
-        System.out.println();
-    });*/
-    //firstNode.start();
-    // todo: change this list of IPs
+
     InetSocketAddress[] targetAddress = {new InetSocketAddress(nodelist[0], 6991),
             new InetSocketAddress(nodelist[1], 6991), new InetSocketAddress(nodelist[2], 6991),
             new InetSocketAddress(nodelist[3], 6991), new InetSocketAddress(nodelist[4], 6991),
             new InetSocketAddress(nodelist[5], 6991), new InetSocketAddress(nodelist[6], 6991),
             new InetSocketAddress(nodelist[7], 6991), new InetSocketAddress(nodelist[8], 6991),
             new InetSocketAddress(nodelist[9], 6991)
-}; // Hardcode the receivers' IPs
+};
     ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<>();
     for (int j=0; j<targetAddress.length; j++) {
         Member initialTarget = new Member(targetAddress[j], 0, config, "0,0");
@@ -108,7 +103,6 @@ public static void main(String[] args) {
 
 
     if (firstNode.isAdversary) {
-        //System.out.println("I am malicious");
         for (String key : memberList.keySet()) {
             int b = Math.round((float) Math.random());
             firstNode.changeSendMsg(Integer.toString(b) + ",0");
@@ -129,7 +123,6 @@ public static void main(String[] args) {
     while(true){
         int step = firstNode.stepNumber % 3;
         currTime = System.currentTimeMillis();
-	//System.out.println("Inside BA gossip3: " + currTime);
         votes = firstNode.getMessages(currTime, step);
         //firstNode.sync(memberList); // Wait until all other nodes is ready for the next step
         firstNode.printVotes(votes);
@@ -142,7 +135,7 @@ public static void main(String[] args) {
         if (!firstNode.isAdversary) {
             switch (step) {
                 case 0:
-                    //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+                    //firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
                     //System.out.println("Inside case 0");
                     numOfZeros = firstNode.numZeros(votes);
                     numOfOnes = firstNode.numOnes(votes);
@@ -158,12 +151,10 @@ public static void main(String[] args) {
                     }
                     break;
                 case 1:
-                    //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+                    //firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
                     //System.out.println("Inside case 1");
                     numOfZeros = firstNode.numZeros(votes);
                     numOfOnes = firstNode.numOnes(votes);
-                    //System.out.println("numOfZeros: " + numOfZeros);
-                    //System.out.println("numOfOnes: " + numOfOnes);
                     if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("0," + nodeStep);
                     } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
@@ -174,12 +165,9 @@ public static void main(String[] args) {
                     }
                     break;
                 case 2:
-                    //            firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
+                    //firstNode.votes[0] = Integer.valueOf(firstNode.sendMsg);
                     numOfZeros = firstNode.numZeros(votes);
                     numOfOnes = firstNode.numOnes(votes);
-                    //System.out.println("inside case 2");
-                    //System.out.println("numOfZeros is " + numOfZeros);
-                    //System.out.println("numOfOnes is " + numOfOnes);
                     if (numOfZeros >= (2 * votes.length) / 3 + 1) {
                         firstNode.changeSendMsg("0," + nodeStep);
                     } else if (numOfOnes >= (2 * votes.length) / 3 + 1) {
@@ -215,13 +203,5 @@ public static void main(String[] args) {
             break;
         }
     }
-    // Create some nodes that connect in a chair to each other. Despite only 1 node connecting to the
-    // first node, the first node will eventually have a membership list with all the nodes in it.
-    /*for(int i = 1; i <= 3; i++) {
-        Node n = new Node( new InetSocketAddress("127.0.0.1", 6991 + i),
-                               new InetSocketAddress("127.0.0.1", 6991 + i - 1), config, "test: node " + i);
-        n.start();
-    }*/
 }
-
 }

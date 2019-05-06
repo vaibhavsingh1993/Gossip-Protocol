@@ -2,15 +2,9 @@
   hosts: localhost
   gather_facts: no
   connection: local
-  vars:
-      project: tonal-nova-237518
-      gcp_project: tonal-nova-237518
-      gcp_cred_kind: serviceaccount 
-      auth_kind: serviceaccount
-      gcp_cred_file: tonal-nova-237518-29dfeae94c52.json
-      service_account_file: tonal-nova-237518-29dfeae94c52.json
-      zone: "us-central1-a"
-      region: "us-central1"
+  vars_files:
+    - ./variables.yml
+
 
   tasks:
     - name: create a disk

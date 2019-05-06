@@ -11,14 +11,12 @@ import java.security.PublicKey;
 public class Node {
     public final InetSocketAddress listeningAddress;
     public Network network;
-    // instantiate a default logger that does not log anything
     static Logger logger = (message) -> {};
     public Member self = null;
     private ConcurrentHashMap<String, Member> memberList = new ConcurrentHashMap<String, Member>();
     private boolean stopped = false;
     public String sendMsg;
     private String rcvdMsg;
-    // configurable values
     private Config config = null;
     private GossipUpdater onNewMember = null;
     private GossipUpdater onFailedMember = null;
@@ -28,7 +26,6 @@ public class Node {
     private PrivateKey privKey;
     private static PublicKey[] publicKey = new PublicKey[9];
 	int stepNumber = -1;
-	// todo: change this DS either size or type (arraylist)
     long[] votes = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     ArrayList<Integer> fixed_votes = new ArrayList<>();
 
@@ -39,15 +36,12 @@ public class Node {
 	public long[] getMessages(long currTime, int currStep) {
 	    int i = 0;
 	    int j = 0;
-	    //while(System.currentTimeMillis()<currTime + 5000){
         for(int k=0; k<fixed_votes.size(); k++) {
             votes[i%votes.length] = (long) fixed_votes.get(k);
             i++;
             j++;
         }
-        // todo: change the terminate condition for this while
 	    while(j < 10) {
-            //System.out.println("inside getMEssages");
             Object rcvdObj = network.receiveMessage();
             String rcvMsg = rcvdObj.toString();
             String[] strs = rcvMsg.split(",");
@@ -58,8 +52,6 @@ public class Node {
             int caseNum = Integer.valueOf(step.trim()) % 3;
             if(caseNum !=currStep) continue;
             System.out.println("Received bit: " + bit + ", Received step: " + step);
-            //String bit = "0";
-            //String step = "0";
             if (caseNum == currStep && bit.length() == 1 && signatureVerified){
                 votes[i%votes.length] = (long) Integer.valueOf(bit);
                 i++;
@@ -69,15 +61,8 @@ public class Node {
                 fixed_votes.add(Integer.valueOf(Character.toString(bit.charAt(0))));
                 i++;
             }
-            //listen for messages
-            //verify messages and then add the messages to the array roundMessages
-            //put messages into arrays
             j++;
 	    }
-	    //System.out.println("Inside getMessage, votes values are: ");
-	    /*for(int l=0; l<votes.length; l++) {
-            System.out.println(votes[l]);
-        }*/
         return votes;
     }
 
@@ -116,6 +101,8 @@ public class Node {
      * */
     public Node(InetSocketAddress listeningAddress, Config config, String message, int steps) {
         try {
+            // TODO: Would need to map the public keys to a list of all public keys instead of 
+            // a single public key
             privKey = CryptoUtil.getPrivate("/home/vagrant/Gossip-Protocol/src/key.der");
             publicKey[0] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");
             publicKey[1] = CryptoUtil.getPublic("/home/vagrant/Gossip-Protocol/src/public.der");

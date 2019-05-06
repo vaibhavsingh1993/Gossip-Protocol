@@ -5,13 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+
+/**
+ * Gossip class is a wrapper on Network.java, maintains the membership list
+ * and has the logic associated with broadcasting and receiving messages synchronously.
+ *
+ * @author  TTyler
+ * @author  Vaibhav Singh
+ * @author  Varun Madathil
+ * @author  Wayne Chen
+ * @version 1.1
+ * @since   2019-02-26
+ */
 public class Gossip {
 
 	public final InetSocketAddress listeningAddress;
 
 	private Network network;
 	
-	// instantiate a default logger that does not log anything
 	static Logger logger = (message) -> {};
 
 	private Member self = null;
@@ -22,7 +33,6 @@ public class Gossip {
     private String sendMsg;
     private String rcvdMsg;
 
-	// configurable values
 	private Config config = null;
 
 	private GossipUpdater onNewMember = null;
@@ -31,8 +41,9 @@ public class Gossip {
 	private GossipUpdater onRevivedMember = null;
 
 	/**
-	 * initialize gossip protocol as the first node in the system.
-	 * */
+	 * Gossip constructor to initialize gossip protocol as the first node in the system.
+	 *
+	 **/
 	public Gossip(InetSocketAddress listeningAddress, Config config, String message) {
 		this.config = config;
 
@@ -45,9 +56,10 @@ public class Gossip {
 	}
 
 	/**
-	 * Connect to another node in the gossip protocol and begin fault tolerance
-	 * monitoring.
-	 * */
+	 * Gossip constructor to connect to another node in the gossip protocol and 
+	 * begin fault tolerance monitoring.
+	 *
+	 **/
 	public Gossip(InetSocketAddress listeningAddress,
 			InetSocketAddress targetAddress, Config config, String message) {
 		this(listeningAddress, config, message);
@@ -93,7 +105,6 @@ public class Gossip {
 							Thread.sleep(config.FAILURE_DETECTION_FREQUENCY
 									.toMillis());
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -141,18 +152,14 @@ public class Gossip {
 	}
 
 	private void receiveMemberList() {
-		//Member newMember = network.receiveMessage();
         Object rcvdObj = network.receiveMessage();
-        //System.out.println(self.getSocketAddress() + " is receiving a new message.");
 	    Member newMember = null;
         boolean isStr = false;
         if(rcvdObj instanceof String) {
-            //System.out.println("The new message is of type string.");
             rcvdMsg = rcvdObj.toString();
             isStr = true;
         } else {
-            try {
-	            //System.out.println("The new message is of type Member."); 	                                        
+            try {	                                        
                 newMember  = (Member) rcvdObj;                
             } catch (Exception e) {
 				Gossip.logger.log("Error casting Gossip network data to Member class because: " + e.getMessage());
@@ -175,7 +182,6 @@ public class Gossip {
                 member.updateSequenceNumber(newMember.getSequenceNumber());
             }
         } else {
-        	// TODO: Might still need to collect the information about this peer's address for BA protocol
             System.out.println(self.getSocketAddress() + " received message '" + rcvdMsg + "' from a peer.");
 	    }
     }

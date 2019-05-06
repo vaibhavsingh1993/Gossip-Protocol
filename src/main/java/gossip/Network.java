@@ -28,6 +28,8 @@ public class Network {
 	
 	public Network(int portToListenOn) {
 		try {
+			// TODO: Would need to map the public keys to a list of all public keys instead of 
+            // a single public key
 		    privKey = CryptoUtil.getPrivate("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/key.der");
 			publicKey[0] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
 			publicKey[1] = CryptoUtil.getPublic("/home/vavasing/Desktop/workspace/CSC724_ADS/circom_tut/Gossip-Protocol/src/public.der");
