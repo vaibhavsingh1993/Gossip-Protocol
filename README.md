@@ -38,11 +38,13 @@ ansible-playbook gcp_playbook.yml
 ```
 
 **1.** Install Git
+
 **2.** Clone the repo
 ```
 git clone https://github.com/vaibhavsingh1993/Gossip-Protocol.git
 ```
 **3.** Install JDK (8+)
+
 **4.** Install Gradle
 
 It is highly recommended to run the code within VM's, preferably on the same Availability Zone (to reduce latency) with firewall rules allowing port **6991** to be able to send and receive UDP traffic. 
