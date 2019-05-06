@@ -105,8 +105,7 @@ public class Network {
             } catch (ClassNotFoundException e) {
 				Gossip.logger.log("Error calling readObject() on an ObjectInputStream object: " + e.getMessage());
 			}
-	    System.out.println("Message received: " + rcvdObj.toString().substring(0,rcvdObj.toString().lastIndexOf(",")) +
-							", Signature Verified...");
+	    System.out.println("Message received: " + rcvdObj.toString().substring(0,rcvdObj.toString().lastIndexOf(",")));
             iStream.close();
             return rcvdObj;
             /*Member message = null;
