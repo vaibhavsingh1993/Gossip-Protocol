@@ -98,7 +98,6 @@ TODO: add it
 TODO: Add it, probably as a wikipage?
 </details>
 
-TODO: Add snarkjs evaluation code as well, probably as link to a different repo or as a zipped file.
 ## Screencast link
 https://youtu.be/rtTEz17JtWU
 </details>
