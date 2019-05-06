@@ -16,26 +16,7 @@ https://youtu.be/rtTEz17JtWU
 
 # Prerequisites
 
-** 0.** Clone the repo
-```
-git clone https://github.com/vaibhavsingh1993/Gossip-Protocol/
-```
-
-*Note: There are autoconfigure scripts named setup.sh and setup-ubuntu.sh which can be used to setup the environment automatically, but only if one is using CentOS / RHEL (for setup.sh) or Ubuntu (for setup-ubuntu.sh). If you run one of the scripts you need not run the configuration steps below.*
-
-```
-chmod +x setup.sh
-
-./setup.sh
-
-(or)
-
-chmod +x setup-ubuntu.sh
-
-./setup-ubuntu.sh
-
-```
-**1.** (Optional) To auto create VMs on GCP:
+**0.** (Optional) To auto create VMs on GCP:
 
   a.) Follow the steps at https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount to create a service account and download the credentials json file.
   
@@ -57,6 +38,26 @@ sudo apt-get update && sudo apt-get install ansible
 pip install requests google-auth
 
 ansible-playbook gcp_playbook.yml
+
+```
+
+** 1.** Clone the repo
+```
+git clone https://github.com/vaibhavsingh1993/Gossip-Protocol/
+```
+
+*Note: There are autoconfigure scripts named setup.sh and setup-ubuntu.sh which can be used to setup the environment automatically, but only if one is using CentOS / RHEL (for setup.sh) or Ubuntu (for setup-ubuntu.sh). If you run one of the scripts you need not run the configuration steps below.*
+
+```
+chmod +x setup.sh
+
+./setup.sh
+
+(or)
+
+chmod +x setup-ubuntu.sh
+
+./setup-ubuntu.sh
 
 ```
 
