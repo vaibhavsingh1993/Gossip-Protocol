@@ -99,6 +99,7 @@ Each step takes from a few seconds to the order of 10's of minutes to complete.
 ## Link to Paper
 TODO: add it
 
+TODO: Add a master diff for all changes made by us.
 ## Task distribution
 Varun Madathil (vrmadath) -
 Vaibhav Singh (vsingh7) - 
