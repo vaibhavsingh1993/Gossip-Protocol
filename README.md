@@ -2,8 +2,11 @@
   <img width="200" height="200" src="https://upload.wikimedia.org/wikipedia/commons/e/e1/North_Carolina_State_University_Athletic_logo.svg">
 </p>
 
-# Gossip Protocol
-CSC724 Spring 2019
+# Anonymity in BFT protocols using Zero Knowledge Proofs
+
+Implementation of the paper [Byzantine Agreement, Made Trivial](https://people.csail.mit.edu/silvio/Selected%20Scientific%20Papers/Distributed%20Computation/BYZANTYNE%20AGREEMENT%20MADE%20TRIVIAL.pdf) by Silvio Micali, for the course CSC724 Advanced Distributed Systems, Spring 2019.
+
+The project implements Digital Signatures (4096-bit RSA) to check the veracity of messages sent over an unreliable channel with the presence of Byzantine adversaries. The project also evaluates Zero Knowledge Proofs (EDDSA) for checking the truthfulness of messages instead of Digital Signatures.
 
 ## Authors
 [Vaibhav Singh](https://github.ncsu.edu/vsingh7)(vsingh7@ncsu.edu) <br>
