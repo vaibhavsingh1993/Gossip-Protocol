@@ -97,7 +97,7 @@ time snarkjs proof
 Each step takes from a few seconds to the order of 10's of minutes to complete.
 
 ## Link to Paper
-https://drive.google.com/file/d/1y6LwtaaGZvkaUjCqg6BPhULgDocnKiSZ/view?usp=sharing
+https://github.com/vaibhavsingh1993/Gossip-Protocol/blob/master/paper/Anonymity%20in%20BFT%20protocols%20using%20zero%20knowledge%20proofs.pdf
 ## Task distribution
 
 
